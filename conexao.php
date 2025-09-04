@@ -15,7 +15,14 @@ foreach ($portas as $porta) {
     }
 }
 
+// Ensure connection is established or terminate
 if ($conn === null || $conn->connect_error) {
-    die("Erro na conexão: " . $conn->connect_error);
+    $error_message = $conn ? $conn->connect_error : "Failed to create connection object";
+    error_log("Database connection failed: " . $error_message);
+    die("Database connection failed. Please try again later.");
 }
+
+// Set charset for better security
+$conn->set_charset("utf8");
+
 ?>
