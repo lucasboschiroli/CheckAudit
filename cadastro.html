@@ -6,7 +6,7 @@
     <link rel="icon" href="" type="image/jpeg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
-    <title>Sign In - CheckAudit</title>
+    <title>Cadastro - CheckAudit</title>
 </head>
 <body>
     <header>
@@ -15,42 +15,42 @@
             <a href="home.html">Home</a>
             <a href="about.html">About</a>
             <a href="contact.html">Contact</a>
-            <a href="cadastro.html" class="active">Sign Up</a>
+            <a href="cadastro.html" class="active">Cadastro</a>
         </nav>
     </header>
 
     <div class="signup-container">
-        <h2 class="signup-title">Create Account</h2>
+        <h2 class="signup-title">Crie sua conta</h2>
         
         <form action="register.php" method="POST" onsubmit="return validateForm()">
 
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="Choose a username" required minlength="3" maxlength="50">
+                <input type="text" id="username" name="username" placeholder="Insira seu username" required minlength="3" maxlength="50">
             </div>
             
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+                <input type="email" id="email" name="email" placeholder="Insira seu email" required>
             </div>
             
             <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Create a strong password" required minlength="6" onkeyup="checkPasswordStrength()">
+                <label for="password">Senha</label>
+                <input type="password" id="password" name="password" placeholder="Insira sua senha" required minlength="6" onkeyup="checkPasswordStrength()">
                 <div id="password-strength" class="password-strength" style="display: none;"></div>
             </div>
             
             <div class="form-group">
-                <label for="confirm_password">Confirm Password</label>
-                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required>
+                <label for="confirm_password">Confirme sua senha</label>
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirme sua senha" required>
             </div>
             
             <button type="submit" class="signup-btn">
-                <i class="fas fa-user-plus"></i> Create Account
+                <i class="fas fa-user-plus"></i> Crie sua conta
             </button>
             
             <div class="form-links">
-                <a href="login.html">Already have an account? Sign In</a>
+                <a href="login.html">Já possui um cadastro? Realize o login aqui</a>
             </div>
         </form>
     </div>
