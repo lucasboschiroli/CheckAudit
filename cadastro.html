@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="" type="image/jpeg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <title>Sign In - CheckAudit</title>
+</head>
+<body>
+    <header>
+        <a href="#" class="logo">CheckAudit</a>
+        <nav>
+            <a href="home.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="cadastro.html" class="active">Sign Up</a>
+        </nav>
+    </header>
+
+    <div class="signup-container">
+        <h2 class="signup-title">Create Account</h2>
+        
+        <form action="register.php" method="POST" onsubmit="return validateForm()">
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Choose a username" required minlength="3" maxlength="50">
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Create a strong password" required minlength="6" onkeyup="checkPasswordStrength()">
+                <div id="password-strength" class="password-strength" style="display: none;"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required>
+            </div>
+            
+            <button type="submit" class="signup-btn">
+                <i class="fas fa-user-plus"></i> Create Account
+            </button>
+            
+            <div class="form-links">
+                <a href="login.html">Already have an account? Sign In</a>
+            </div>
+        </form>
+    </div>
+</body>
+<script src="cadastro.js"></script>
+</html>
