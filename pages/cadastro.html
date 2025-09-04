@@ -5,24 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="" type="image/jpeg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
     <title>Cadastro - CheckAudit</title>
 </head>
 <body>
-    <header>
-        <a href="#" class="logo">CheckAudit</a>
-        <nav>
-            <a href="home.html">Home</a>
-            <a href="about.html">About</a>
-            <a href="contact.html">Contact</a>
-            <a href="cadastro.html" class="active">Cadastro</a>
-        </nav>
-    </header>
-
     <div class="signup-container">
         <h2 class="signup-title">Crie sua conta</h2>
         
-        <form action="register.php" method="POST" onsubmit="return validateForm()">
+        <form action="../php/register.php" method="POST" onsubmit="return validateForm()">
 
             <div class="form-group">
                 <label for="username">Username</label>

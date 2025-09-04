@@ -37,7 +37,7 @@ header {
 
 .logo:hover{
     transform: scale(1.1);
-    color: #b74b4b;
+    color: #ee4abd;
 }
 
 nav {
@@ -57,8 +57,8 @@ nav a {
 
 nav a:hover,
 nav a.active {
-    color: #b74b4b;
-    border-bottom: 3px solid #b74b4b;
+    color: #ee4abd;
+    border-bottom: 3px solid #ee4abd;
 }
 
         body {
@@ -114,7 +114,7 @@ nav a.active {
         }
 
         .form-group input:focus {
-            border-color: #b74b4b;
+            border-color: #ee4abd;
             background: rgba(255, 255, 255, 0.15);
             transform: translateY(-2px);
         }
@@ -151,13 +151,13 @@ nav a.active {
         }
 
         .form-links a {
-            color: #b74b4b;
+            color: #ee4abd;
             font-size: 1.4rem;
             transition: color 0.3s ease;
         }
 
         .form-links a:hover {
-            color: #d45656;
+            color: #ffff;
         }
 
         .password-strength {

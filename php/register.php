@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'conexao.php';
+require_once '../config/conexao.php';
 
 // Check if connection is valid
 if (!$conn instanceof mysqli) {
@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             
             $stmt->close();
             // Redirect to home page with success message
-            header('Location: home.html?message=registration_success');
+            header('Location: ../pages/home.html?message=registration_success');
             exit();
         } else {
             $stmt->close();
