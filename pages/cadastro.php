@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,7 +41,7 @@
             </button>
             
             <div class="form-links">
-                <a href="login.html">Já possui um cadastro? Realize o login aqui</a>
+                <a href="login.php">Já possui um cadastro? Realize o login aqui</a>
             </div>
         </form>
     </div>

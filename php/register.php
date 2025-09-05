@@ -5,7 +5,7 @@ require_once '../config/conexao.php';
 
 if (!$conn instanceof mysqli) {
     error_log("Database connection is not valid in register.php");
-    header('Location: cadastro.html?error=system_error');
+    header('Location: cadastro.php?error=system_error');
     exit();
 }
 
@@ -17,37 +17,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
 
     if (empty($username) || empty($email) || empty($password) || empty($confirm_password)) {
-        header('Location: cadastro.html?error=empty_fields');
+        header('Location: cadastro.php?error=empty_fields');
         exit();
     }
     
 
     if ($password !== $confirm_password) {
-        header('Location: cadastro.html?error=password_mismatch');
+        header('Location: cadastro.php?error=password_mismatch');
         exit();
     }
     
  
     if (strlen($password) < 6) {
-        header('Location: cadastro.html?error=password_too_short');
+        header('Location: cadastro.php?error=password_too_short');
         exit();
     }
     
 
     if (strlen($username) < 3 || strlen($username) > 50) {
-        header('Location: cadastro.html?error=invalid_username_length');
+        header('Location: cadastro.php?error=invalid_username_length');
         exit();
     }
     
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        header('Location: cadastro.html?error=invalid_email');
+        header('Location: cadastro.php?error=invalid_email');
         exit();
     }
     
 
     if (!preg_match('/^[a-zA-Z0-9_]+$/', $username)) {
-        header('Location: cadastro.html?error=invalid_username_format');
+        header('Location: cadastro.php?error=invalid_username_format');
         exit();
     }
     
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         if ($result->num_rows > 0) {
             $stmt->close();
-            header('Location: cadastro.html?error=user_exists');
+            header('Location: cadastro.php?error=user_exists');
             exit();
         }
         
@@ -103,12 +103,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } catch (Exception $e) {
 
         error_log("Registration error: " . $e->getMessage());
-        header('Location: cadastro.html?error=system_error');
+        header('Location: cadastro.php?error=system_error');
         exit();
     }
 } else {
 
-    header('Location: cadastro.html');
+    header('Location: cadastro.php');
     exit();
 }
 
