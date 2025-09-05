@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="" type="image/jpeg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/styles.css">
     <title>Cadastro - CheckAudit</title>
 </head>
 <body>
@@ -46,5 +46,5 @@
         </form>
     </div>
 </body>
-<script src="../assets/js/cadastro.js"></script>
+<script src="../assets/cadastro.js"></script>
 </html>
