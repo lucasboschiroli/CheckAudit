@@ -35,7 +35,13 @@
                 <label for="confirm_password">Confirme sua senha</label>
                 <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirme sua senha" required>
             </div>
-            
+
+            <div class="form-group">
+                <div class="recaptcha-container">
+                    <div class="g-recaptcha" data-sitekey="6LeRLU0rAAAAAFaurGLkjnsdolroXd5OfGF4Do2d" required></div>
+                </div>
+            </div>
+
             <button type="submit" class="signup-btn">
                 <i class="fas fa-user-plus"></i> Crie sua conta
             </button>
@@ -46,5 +52,8 @@
         </form>
     </div>
 </body>
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script src="../assets/cadastro.js"></script>
+
 </html>

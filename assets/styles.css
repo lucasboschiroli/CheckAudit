@@ -199,3 +199,13 @@ footer p {
     margin: 0;
     color: #888;
 }
+
+.recaptcha-container {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+}
+
+.recaptcha-container .g-recaptcha {
+    transform: scale(1.2);
+}
