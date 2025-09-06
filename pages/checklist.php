@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/styles.css">
     <title>Checklist - CheckAudit</title>
     <style>
         .checklist-table {
@@ -12,13 +12,13 @@
             border-collapse: separate;
             border-spacing: 0;
             margin-top: 2rem;
-            font-size: 1.4rem; 
+            font-size: 1.4rem; /* Reduzido para acomodar mais colunas */
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 5px 25px rgba(0,0,0,0.4);
         }
         .checklist-table th, .checklist-table td {
-            padding: 1rem; 
+            padding: 1rem; /* Reduzido para economizar espaço */
             text-align: left;
         }
         .checklist-table thead {
@@ -27,7 +27,7 @@
         .checklist-table thead th {
             color: #fff;
             font-weight: 600;
-            font-size: 1.4rem; 
+            font-size: 1.4rem; /* Reduzido */
             letter-spacing: 0.5px;
         }
         .checklist-table tbody tr {
@@ -48,10 +48,10 @@
         .checklist-table td textarea,
         .checklist-table td select {
             width: 100%;
-            padding: 0.8rem; 
+            padding: 0.8rem; /* Reduzido */
             border-radius: 8px;
             border: none;
-            font-size: 1.3rem; 
+            font-size: 1.3rem; /* Reduzido */
             background: rgba(255,255,255,0.15);
             color: #ebe5e5ff;
             transition: 0.3s ease;
@@ -63,12 +63,12 @@
             outline: 2px solid #ee4abd;
         }
         .btn-acao {
-            padding: 0.8rem 1.2rem; 
+            padding: 0.8rem 1.2rem; /* Reduzido */
             border-radius: 8px;
             cursor: pointer;
             border: none;
             font-weight: 600;
-            font-size: 1.3rem; 
+            font-size: 1.3rem; /* Reduzido */
             margin: 0.2rem;
             transition: transform 0.2s ease, box-shadow 0.3s ease;
         }
@@ -80,7 +80,7 @@
         .btn-delete { background: #35dc80ff; color: #fff; }
         .btn-save-all { background: #ff6b6b; color: #fff; padding: 1.5rem 3rem; font-size: 1.8rem; }
 
-        
+        /* Formulário de nova pergunta completa */
         .form-completo {
             background: rgba(255,255,255,0.1);
             padding: 2rem;
@@ -94,23 +94,23 @@
         }
         .form-row {
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr 2fr 1fr 2fr 1fr; 
+            grid-template-columns: 2fr 1fr 1fr 2fr 1fr 2fr 1fr; /* Atualizado para 7 colunas */
             gap: 1rem;
             margin-bottom: 1rem;
         }
         .form-row > div {
             display: flex;
             flex-direction: column;
-            min-height: 110px; 
+            min-height: 110px; /* Altura mínima padronizada para todos os grupos */
         }
         .form-row label {
             color: #fff;
             font-weight: 600;
             margin-bottom: 0.8rem;
             display: block;
-            font-size: 1.4rem; 
-            min-height: 2.8rem; 
-            line-height: 1.4; 
+            font-size: 1.4rem; /* Tamanho padronizado */
+            min-height: 2.8rem; /* Altura mínima para padronizar */
+            line-height: 1.4; /* Espaçamento entre linhas */
         }
         .form-row input,
         .form-row select,
@@ -121,17 +121,18 @@
             font-size: 1.5rem;
             background: rgba(255,255,255,0.15);
             color: #fff;
-            flex: 1; 
+            flex: 1; /* Faz o campo ocupar o espaço restante */
         }
         .form-row textarea {
             resize: vertical;
-            min-height: 60px;
+            min-height: 60px; /* Altura mínima para textareas */
+        }
         .form-actions {
             text-align: center;
             margin-top: 1.5rem;
         }
         
-       
+        /* Responsividade para telas menores */
         @media (max-width: 1200px) {
             .checklist-table {
                 font-size: 1.2rem;
@@ -149,62 +150,17 @@
     <div class="signup-container" style="max-width: 1400px;"> 
         <h2 class="signup-title">Checklist da Auditoria</h2>
 
-        <div class="form-completo">
-            <h3>Adicionar Nova Pergunta Completa</h3>
-            <form action="../php/checklist_action.php" method="POST">
-                <input type="hidden" name="action" value="create_complete">
+        <form action="../php/checklist_action.php" method="POST" style="margin-bottom:2rem;">
+            <input type="hidden" name="action" value="create">
+            <div class="form-group">
+                <label for="pergunta_simples">Adicionar Pergunta</label>
+                <input type="text" id="pergunta_simples" name="pergunta" placeholder="Digite a pergunta">
+            </div>
+            <button type="submit" class="signup-btn">Adicionar Pergunta</button>
+        </form>
                 
-                <div class="form-row">
-                    <div>
-                        <label for="pergunta">Descrição da Pergunta</label>
-                        <input type="text" id="pergunta" name="pergunta" placeholder="Digite a pergunta" required>
-                    </div>
-                    <div>
-                        <label for="resultado">Resultado</label>
-                        <select name="resultado" id="resultado">
-                            <option value="N/A">N/A</option>
-                            <option value="OK">Sim</option>
-                            <option value="NC">NC</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="responsavel">Responsável</label>
-                        <input type="text" name="responsavel" id="responsavel" placeholder="Nome do responsável">
-                    </div>
-                    <div>
-                        <label for="observacoes">Observações</label>
-                        <textarea name="observacoes" id="observacoes" placeholder="Observações adicionais"></textarea>
-                    </div>
-                    <div>
-                        <label for="classificacao_nc">Classificação da NC</label>
-                        <select name="classificacao_nc" id="classificacao_nc">
-                            <option value="">Selecione</option>
-                            <option value="Menor">Simples</option>
-                            <option value="Maior">Maior</option>
-                            <option value="Complexa">Complexa</option>
                 
-                        </select>
-                    </div>
-                    <div>
-                        <label for="acao_corretiva">Ação Corretiva Indicada</label>
-                        <textarea name="acao_corretiva" id="acao_corretiva" placeholder="Descreva a ação corretiva"></textarea>
-                    </div>
-                    <div>
-                        <label for="situacao_nc">Situação da NC</label>
-                        <select name="situacao_nc" id="situacao_nc">
-                            <option value="Pendente">Aberta</option>
-                            <option value="Em Andamento">Em Aberta</option>
-                            <option value="Concluída">Resolvida</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="form-actions">
-                    <button type="submit" class="signup-btn">Adicionar Item Completo</button>
-                </div>
-            </form>
-        </div>
-
+       
         <form action="../php/checklist_action.php" method="POST" id="formSalvarTudo">
             <input type="hidden" name="action" value="update_all">
             
@@ -251,9 +207,9 @@
                                         <select name='classificacao_nc[{$row['id']}]'>
                                             <option value=''>Selecione</option>
                                             <option value='Menor' ".(isset($row['classificacao_nc']) && $row['classificacao_nc']=='Menor'?'selected':'').">Simples</option>
-                                            <option value='Maior' ".(isset($row['classificacao_nc']) && $row['classificacao_nc']=='Maior'?'selected':'').">Média</option>
-                                            <option value='Complexa' ".(isset($row['classificacao_nc']) && $row['classificacao_nc']=='Complexa'?'selected':'').">Complexa</option>
-                                            
+                                            <option value='Maior' ".(isset($row['classificacao_nc']) && $row['classificacao_nc']=='Maior'?'selected':'').">Media</option>
+                                            <option value='Crítica' ".(isset($row['classificacao_nc']) && $row['classificacao_nc']=='Crítica'?'selected':'').">Complexa</option>
+                                           
                                         </select>
                                     </td>
                                     <td>
@@ -263,8 +219,8 @@
                                         <select name='situacao_nc[{$row['id']}]'>
                                             <option value='Pendente' ".(isset($row['situacao_nc']) && $row['situacao_nc']=='Pendente'?'selected':'').">Aberta</option>
                                             <option value='Em Andamento' ".(isset($row['situacao_nc']) && $row['situacao_nc']=='Em Andamento'?'selected':'').">Em Análise</option>
-                                            <option value='Concluída' ".(isset($row['situacao_nc']) && $row['situacao_nc']=='Concluída'?'selected':'').">Resolvida</option>
-                                            
+                                            <option value='Concluída' ".(isset($row['situacao_nc']) && $row['situacao_nc']=='Concluída'?'selected':'').">Realizada</option>
+                                        
                                         </select>
                                     </td>
                                     <td>
@@ -286,14 +242,14 @@
         </form>
     </div>
 
-    
+
     <form id="formExcluir" action="../php/checklist_action.php" method="POST" style="display: none;">
         <input type="hidden" name="action" value="delete">
         <input type="hidden" name="id" id="idExcluir">
     </form>
 
     <script>
-        
+      
         document.querySelectorAll('textarea').forEach(textarea => {
             textarea.addEventListener('input', function() {
                 this.style.height = 'auto';
@@ -301,6 +257,7 @@
             });
         });
 
+       
         function confirmarExclusao(id) {
             if (confirm("Tem certeza que deseja excluir este item?")) {
                 document.getElementById('idExcluir').value = id;
