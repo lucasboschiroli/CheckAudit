@@ -156,10 +156,10 @@
             <button type="submit" class="signup-btn">Adicionar Pergunta</button>
         </form>
      
-        <form action="../php/checklist_action.php" method="POST" id="formSalvarTudo">
+       <form action="../php/checklist_action.php" method="POST" id="formSalvarTudo">
             <input type="hidden" name="action" value="update_all">
             <input type="hidden" name="id_auditoria" value="<?= $id_auditoria ?>">
-            
+
             <table class="checklist-table">
                 <thead>
                     <tr>
@@ -185,44 +185,36 @@
                     if ($result && $result->num_rows > 0) {
                         $num = 1;
                         while($row = $result->fetch_assoc()) {
+                            // Traduzindo valores dos selects para texto legível
+                            $classificacao = '';
+                            switch($row['classificacao_nc']){
+                                case 'Menor': $classificacao = 'Simples'; break;
+                                case 'Maior': $classificacao = 'Média'; break;
+                                case 'Crítica': $classificacao = 'Complexa'; break;
+                                default: $classificacao = '';
+                            }
+
+                            $situacao = '';
+                            switch($row['situacao_nc']){
+                                case 'Pendente': $situacao = 'Aberta'; break;
+                                case 'Em Andamento': $situacao = 'Em Análise'; break;
+                                case 'Concluída': $situacao = 'Realizada'; break;
+                                default: $situacao = '';
+                            }
+
                             echo "<tr>
-                                    <td>{$num}</td>
-                                    <td>" . htmlspecialchars($row['pergunta']) . "</td>
-                                    <td>
-                                        <select name='resultado[{$row['id']}]'>
-                                            <option value='N/A' ".($row['resultado']=='N/A'?'selected':'').">N/A</option>
-                                            <option value='OK' ".($row['resultado']=='OK'?'selected':'').">Sim</option>
-                                            <option value='NC' ".($row['resultado']=='NC'?'selected':'').">NC</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input type='text' name='responsavel[{$row['id']}]' value='" . htmlspecialchars($row['responsavel']) . "' placeholder='Nome do responsável'>
-                                    </td>
-                                    <td>
-                                        <textarea name='observacoes[{$row['id']}]' rows='1' placeholder='Observações'>" . htmlspecialchars($row['observacoes']) . "</textarea>
-                                    </td>
-                                    <td>
-                                        <select name='classificacao_nc[{$row['id']}]'>
-                                            <option value=''>Selecione</option>
-                                            <option value='Menor' ".(isset($row['classificacao_nc']) && $row['classificacao_nc']=='Menor'?'selected':'').">Simples</option>
-                                            <option value='Maior' ".(isset($row['classificacao_nc']) && $row['classificacao_nc']=='Maior'?'selected':'').">Media</option>
-                                            <option value='Crítica' ".(isset($row['classificacao_nc']) && $row['classificacao_nc']=='Crítica'?'selected':'').">Complexa</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <textarea name='acao_corretiva[{$row['id']}]' rows='1' placeholder='Ação corretiva'>" . (isset($row['acao_corretiva']) ? htmlspecialchars($row['acao_corretiva']) : '') . "</textarea>
-                                    </td>
-                                    <td>
-                                        <select name='situacao_nc[{$row['id']}]'>
-                                            <option value='Pendente' ".(isset($row['situacao_nc']) && $row['situacao_nc']=='Pendente'?'selected':'').">Aberta</option>
-                                            <option value='Em Andamento' ".(isset($row['situacao_nc']) && $row['situacao_nc']=='Em Andamento'?'selected':'').">Em Análise</option>
-                                            <option value='Concluída' ".(isset($row['situacao_nc']) && $row['situacao_nc']=='Concluída'?'selected':'').">Realizada</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <button type='button' class='btn-acao btn-delete' onclick='confirmarExclusao({$row['id']})'>Excluir</button>
-                                    </td>
-                                  </tr>";
+                <td>{$num}</td>
+                <td>" . htmlspecialchars($row['pergunta']) . "</td>
+                <td></td>
+                <td>" . htmlspecialchars($row['responsavel']) . "</td>
+                <td>" . htmlspecialchars($row['observacoes']) . "</td>
+                <td>{$classificacao}</td>
+                <td>" . htmlspecialchars($row['acao_corretiva']) . "</td>
+                <td>{$situacao}</td>
+                <td>
+                    <button type='button' class='btn-acao btn-delete' onclick='confirmarExclusao({$row['id']})'>Excluir</button>
+                </td>
+              </tr>";
                             $num++;
                         }
                     } else {
@@ -231,10 +223,9 @@
                     ?>
                 </tbody>
             </table>
-            
+
             <div class="form-actions" style="margin-top: 2rem;">
                 <a href="auditoria.php?id_auditoria=<?= $id_auditoria ?>" class="btn-voltar">← Voltar para Auditoria</a>
-                <button type="submit" class="btn-acao btn-save-all">Salvar Todas as Alterações</button>
             </div>
         </form>
     </div>

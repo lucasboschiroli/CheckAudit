@@ -423,7 +423,10 @@ include "../config/conexao.php";
             <a href="checklist.php?id_auditoria=<?= $id_auditoria ?>" class="signup-btn" style="text-decoration: none; display: inline-block;"> 
                 <i class="fa-solid fa-square-plus" style="color: #ffffff;"></i> Criar Checklist
             </a>
-            <button class="signup-btn"> <i class="fa-solid fa-list-check" style="color: #ffffff;"></i> Realizar Auditoria</button>
+            <a href="realizar_auditoria.php?id_auditoria=<?= $id_auditoria ?>" class="signup-btn" style="text-decoration: none; display: inline-block;">
+                <i class="fa-solid fa-list-check" style="color: #ffffff;"></i> Realizar Auditoria
+            </a>
+
         </div>
     </main>
 
