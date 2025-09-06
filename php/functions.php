@@ -36,6 +36,15 @@ function buscarAudutoriasIdUsuario($conn, $id_usuario){
 
 }
 
+function buscarAudutoriasIdAuditoria($conn, $id_auditoria) {
+    $stmt = $conn->prepare("SELECT * FROM auditoria WHERE id_auditoria = ?");
+    $stmt->bind_param("i", $id_auditoria);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
+    return $result->fetch_assoc();
+}
+
 
 
 ?>

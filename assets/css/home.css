@@ -12,3 +12,49 @@
     display: inline-block;
     padding-bottom: 0.5rem;
 }
+
+.auditorias-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.auditoria-card {
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-radius: 15px;
+    padding: 2rem;
+    color: #fff;
+    font-size: 1.4rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+}
+
+.auditoria-card:hover {
+    border-color: #ee4abd;
+    background: rgba(238, 74, 189, 0.15);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(238, 74, 189, 0.3);
+}
+
+.sem-auditoria {
+    background: rgba(238, 74, 189, 0.15);
+    border: 2px solid #ee4abd;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(238, 74, 189, 0.3);
+    padding: 2rem;
+    color: #fff;
+    font-size: 1.4rem;
+    font-weight: 500;
+    text-decoration: none;
+
+    /* centralizar e ocupar toda a grade */
+    width: 100%;          /* ocupa toda a coluna */
+    grid-column: 1 / -1;  /* estica da primeira à última coluna */
+    text-align: center;    /* centraliza o texto */
+}

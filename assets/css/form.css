@@ -157,44 +157,7 @@ main {
     gap: 2rem;
 }
 
-/* =================== */
-/* LISTA DE AUDITORIAS */
-/* =================== */
-.auditorias-container {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
-}
 
-.auditoria-card {
-    background: rgba(255, 255, 255, 0.08);
-    border: 2px solid rgba(255, 255, 255, 0.15);
-    border-radius: 15px;
-    padding: 2rem;
-    color: #fff;
-    font-size: 1.4rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    text-decoration: none;
-    display: block;
-}
-
-.auditoria-card:hover {
-    border-color: #ee4abd;
-    background: rgba(238, 74, 189, 0.15);
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(238, 74, 189, 0.3);
-}
-
-
-/* MODAL               */
-
-/* =================== */
-/* MODAL               */
-/* =================== */
 #form-criar-auditoria {
     display: none;
     position: fixed;

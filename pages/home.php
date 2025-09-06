@@ -79,7 +79,9 @@
                     echo '</a>';
                 }
             } else {
-                echo "<p style='color:white'>Sem auditorias no momento</p>";
+                echo "<div class='sem-auditoria'>";
+                echo "<h3>Sem auditorias criadas no momento</h3>";
+                echo "</div>";
             }
             ?>
         </div>

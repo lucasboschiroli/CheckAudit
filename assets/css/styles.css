@@ -14,6 +14,8 @@ html{
     font-size: 62.5%;
 }
 
+/*HEADER*/
+
 header {
     position: fixed;
     top: 0;
@@ -60,6 +62,36 @@ nav a.active {
     color: #ee4abd;
     border-bottom: 3px solid #ee4abd;
 }
+
+/*FOOTER*/
+footer {
+    color: #ccc;
+    text-align: center;
+    padding: 2rem 0;
+    font-size: 1.4rem;
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: black;
+}
+
+footer p {
+    margin: 0;
+    color: #ee4abd;
+}
+
+.recaptcha-container {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+}
+
+.recaptcha-container .g-recaptcha {
+    transform: scale(1.2);
+}
+
 
 body {
     background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
@@ -183,29 +215,4 @@ body {
     color: #28a745;
 }
 
-footer {
-    color: #ccc;
-    text-align: center;
-    padding: 2rem 0;
-    font-size: 1.4rem;
-    margin-top: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
 
-footer p {
-    margin: 0;
-    color: #888;
-}
-
-.recaptcha-container {
-    display: flex;
-    justify-content: center;
-    margin: 15px 0;
-}
-
-.recaptcha-container .g-recaptcha {
-    transform: scale(1.2);
-}
