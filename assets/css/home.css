@@ -1,0 +1,14 @@
+.auditorias-titulo {
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.auditorias-titulo h3 {
+    font-size: 2.2rem;
+    color: #fff;
+    font-weight: 600;
+    border-bottom: 2px solid #ee4abd; /* linha rosa abaixo */
+    display: inline-block;
+    padding-bottom: 0.5rem;
+}

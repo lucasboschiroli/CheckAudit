@@ -8,12 +8,84 @@
     <link rel="icon" href="" type="image/jpeg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/form.css">
+    <link rel="stylesheet" href="../assets/css/home.css">
+    <link rel="stylesheet" href="../assets/css/header.css">
     <title>Home - CheckAudit</title>
 </head>
 
 <body>
-    <?php include "../includes/header.php";?> 
+    <?php
+    include "../includes/header.php";
+    include "../php/functions.php";
+    include "../config/conexao.php";
+    ?>
+
+    <main>
+
+        <div id="form-criar-auditoria" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="esconderDiv('form-criar-auditoria')">&times;</span>
+                <form action="../php/criarAuditoriaController.php" method="POST">
+                    <div class="form-group">
+                        <label for="titulo">Título do Projeto</label>
+                        <input type="text" id="titulo" name="titulo" placeholder="Informe o título do projeto" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="responsavel">Responsável pelo projeto</label>
+                        <input type="text" id="responsavel" name="responsavel" placeholder="Informe o responsável" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="data-realizacao">Data realização da auditoria</label>
+                        <input type="date" id="data-realizacao" name="data-realizacao" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="objetivo">Objetivo da auditoria</label>
+                        <input type="text" id="objetivo" name="objetivo" placeholder="Informe o objetivo" required>
+                    </div>
+
+                    <button class="signup-btn">
+                        <i class="fa-solid fa-square-plus"></i> Criar
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="btn-criar-container">
+            <button onclick="mostrarDiv('form-criar-auditoria')">
+                <i class="fa-solid fa-square-plus" style="color: #ffffff;"></i>
+                Criar auditoria
+            </button>
+        </div>
+
+        <div class="auditorias-titulo">
+            <h3>Auditorias</h3>
+        </div>
+
+        <div class="auditorias-container">
+            <?php
+            $auditorias = buscarAudutoriasIdUsuario($conn, $_SESSION['user_login']['id']);
+
+            if (count($auditorias) > 0) {
+                foreach ($auditorias as $row) {
+                    echo '<a class="auditoria-card" href="auditoria.php?id_auditoria='.$row['id_auditoria'].'">';
+                    echo "<h3>".$row['titulo_projeto']."</h3>";
+                    echo "<p><strong>Responsável:</strong> ".$row['responsavel']."</p>";
+                    echo "<p><strong>Data:</strong> ".$row['data_realizacao']."</p>";
+                    echo "<p><strong>Objetivo:</strong> ".$row['objetivo']."</p>";
+                    echo '</a>';
+                }
+            } else {
+                echo "<p style='color:white'>Sem auditorias no momento</p>";
+            }
+            ?>
+        </div>
+    </main>
     
 </body>
 
 </html>
+<script src="../assets/js/sessoes.js"></script>

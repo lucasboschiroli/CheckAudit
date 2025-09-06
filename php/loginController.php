@@ -3,11 +3,11 @@ session_start();
 include "./functions.php"; 
 include_once "../config/conexao.php"; 
 
-if(isset($_POST['email']) && isset($_POST['password'])){
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $email_login = $_POST['email'];
     $password_login = $_POST['password'];
 
-    $user = searchUserEmail($conn, $email_login);
+    $user = BuscarUsuarioEmail($conn, $email_login);
 
     if($user) {
         if(password_verify($password_login, $user['password'])){
