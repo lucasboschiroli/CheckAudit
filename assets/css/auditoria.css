@@ -30,11 +30,25 @@
     margin-bottom: 0.8rem;
 }
 
-.auditoria-acoes {
+/* Container principal: dados + botões */
+.auditoria-info-acoes {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 2rem; /* espaçamento entre dados e botões */
+}
+
+/* Caixa de dados ocupa 60% */
+.auditoria-info-dados {
+    flex: 0 0 90%;
+}
+
+/* Botões ocupam 40% */
+.auditoria-info-botoes {
+    flex: 0 0 40%;
+    display: flex;
     gap: 1rem;
-    justify-content: center;
+    justify-content: flex-end; /* alinhados à direita */
+    flex-wrap: wrap; /* caso tenha muitos botões, quebra linha */
 }
 
 .botao-verde {
@@ -42,8 +56,8 @@
     color: #fff;
     border: none;
     border-radius: 8px;
-    padding: 0.7rem 1.2rem;
-    font-size: 1.2rem;
+    padding: 0.5rem 1rem; /* botões menores */
+    font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s ease;
     text-decoration: none;

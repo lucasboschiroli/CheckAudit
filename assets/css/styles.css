@@ -178,6 +178,30 @@ body {
     transform: translateY(-1px);
 }
 
+.signup-btn-pink {
+    width: 100%;
+    padding: 1.5rem;
+    background: linear-gradient(45deg, #ee4abd, #ff77b0); /* tons de rosa combinando com o site */
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 2rem;
+}
+
+.signup-btn-pink:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(238, 74, 189, 0.4); /* sombra rosa */
+}
+
+.signup-btn-pink:active {
+    transform: translateY(-1px);
+}
+
+
 .form-links {
     text-align: center;
 }

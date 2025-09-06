@@ -338,11 +338,26 @@ include "../config/conexao.php";
     <main class="auditoria-detalhes">
         <h1 class="auditoria-titulo">Auditoria <?= $dados_auditoria['titulo_projeto'] ?></h1>
 
-        <div class="auditoria-info">
-            <h3>Dados da auditoria</h3>
-            <p><strong>Responsável:</strong> <?= $dados_auditoria['responsavel'] ?></p>
-            <p><strong>Data de realização:</strong> <?= $dados_auditoria['data_realizacao'] ?></p>
-            <p><strong>Objetivo:</strong> <?= $dados_auditoria['objetivo'] ?></p>
+        <div class="auditoria-info-acoes">
+            <div class="auditoria-info">
+                <h3>Dados da auditoria</h3>
+                <p><strong>Responsável:</strong> <?= $dados_auditoria['responsavel'] ?></p>
+                <p><strong>Data de realização:</strong> <?= $dados_auditoria['data_realizacao'] ?></p>
+                <p><strong>Objetivo:</strong> <?= $dados_auditoria['objetivo'] ?></p>
+            </div>
+
+            <div class="auditoria-acoes">
+                <a href="checklist.php?id_auditoria=<?= $id_auditoria ?>" class="signup-btn" style="text-decoration: none; display: inline-block;">
+                    <i class="fa-solid fa-square-plus" style="color: #ffffff;"></i> Criar Checklist
+                </a>
+                <a href="realizar_auditoria.php?id_auditoria=<?= $id_auditoria ?>" class="signup-btn" style="text-decoration: none; display: inline-block;">
+                    <i class="fa-solid fa-list-check" style="color: #ffffff;"></i> Realizar Auditoria
+                </a>
+                <a href="" class="signup-btn-pink" style="text-decoration: none; display: inline-block;">
+                    <i class="fa-solid fa-circle-info" style="color: #ffffff;"></i> Gerenciar Não Conformidade
+                </a>
+
+            </div>
         </div>
 
         <?php if ($total_perguntas > 0): ?>
@@ -418,16 +433,6 @@ include "../config/conexao.php";
             </div>
         </div>
         <?php endif; ?>
-
-        <div class="auditoria-acoes">
-            <a href="checklist.php?id_auditoria=<?= $id_auditoria ?>" class="signup-btn" style="text-decoration: none; display: inline-block;"> 
-                <i class="fa-solid fa-square-plus" style="color: #ffffff;"></i> Criar Checklist
-            </a>
-            <a href="realizar_auditoria.php?id_auditoria=<?= $id_auditoria ?>" class="signup-btn" style="text-decoration: none; display: inline-block;">
-                <i class="fa-solid fa-list-check" style="color: #ffffff;"></i> Realizar Auditoria
-            </a>
-
-        </div>
     </main>
 
     <script>
