@@ -13,7 +13,7 @@
     <div class="signup-container">
         <h2 class="signup-title">Crie sua conta</h2>
         
-        <form action="../php/register.php" method="POST" onsubmit="return validateForm()">
+        <form action="../php/register.php"php method="POST" onsubmit="return validateForm()">
 
             <div class="form-group">
                 <label for="username">Username</label>
