@@ -84,8 +84,10 @@
             ?>
         </div>
     </main>
+
+    <?php include "../includes/footer.php";?>
     
 </body>
 
 </html>
-<script src="../assets/js/sessoes.js"></script>
+<script src="../assets/js/divs.js"></script>

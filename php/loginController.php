@@ -10,19 +10,24 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $user = BuscarUsuarioEmail($conn, $email_login);
 
     if($user) {
-        if(password_verify($password_login, $user['password'])){
-            echo "Olá " . $user['username'];
+
+        if(isset($user['password']) && password_verify($password_login, $user['password'])){
             $_SESSION['user_login'] = $user;
-            Header('Location: ../pages/home.php');
+            header('Location: ../pages/home.php');
+            exit();
         } else {
-            echo "Senha incorreta!";
+
+            header('Location: ../pages/login.php?error=incorrect_password');
+            exit();
         }
     } else {
-        echo "Usuário não encontrado!";
+
+        header('Location: ../pages/login.php?error=user_not_found');
+        exit();
     }
 } else {
-    echo "Erro ao passar dados POST";
+
+    header('Location: ../pages/login.php?error=missing_data');
+    exit();
 }
-
-
 ?>

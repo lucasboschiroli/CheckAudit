@@ -2,7 +2,6 @@
 session_start();
 require_once '../config/conexao.php';
 
-
 if (!$conn instanceof mysqli) {
     error_log("Database connection is not valid in register.php");
     header('Location: cadastro.php?error=system_error');
@@ -15,44 +14,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
     
-
     if (empty($username) || empty($email) || empty($password) || empty($confirm_password)) {
         header('Location: cadastro.php?error=empty_fields');
         exit();
     }
     
-
     if ($password !== $confirm_password) {
         header('Location: cadastro.php?error=password_mismatch');
         exit();
     }
     
- 
     if (strlen($password) < 6) {
         header('Location: cadastro.php?error=password_too_short');
         exit();
     }
     
-
     if (strlen($username) < 3 || strlen($username) > 50) {
         header('Location: cadastro.php?error=invalid_username_length');
         exit();
     }
     
-
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         header('Location: cadastro.php?error=invalid_email');
         exit();
     }
     
-
     if (!preg_match('/^[a-zA-Z0-9_]+$/', $username)) {
         header('Location: cadastro.php?error=invalid_username_format');
         exit();
     }
     
     try {
-
         $stmt = $conn->prepare("SELECT id FROM users WHERE username = ? OR email = ?");
         if (!$stmt) {
             throw new Exception("Prepare statement failed: " . $conn->error);
@@ -70,10 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         $stmt->close();
         
-
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
         
-
         $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
         if (!$stmt) {
             throw new Exception("Prepare statement failed: " . $conn->error);
@@ -82,17 +72,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->bind_param("sss", $username, $email, $hashed_password);
         
         if ($stmt->execute()) {
-
             $user_id = $conn->insert_id;
             
 
-            $_SESSION['user_id'] = $user_id;
-            $_SESSION['username'] = $username;
-            $_SESSION['email'] = $email;
-            $_SESSION['logged_in'] = true;
+            $user_data = [
+                'id' => $user_id,
+                'username' => $username,
+                'email' => $email
+            ];
+            
+
+            $_SESSION['user_login'] = $user_data;
             
             $stmt->close();
- 
             header('Location: ../pages/home.php?message=registration_success');
             exit();
         } else {
@@ -101,13 +93,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         
     } catch (Exception $e) {
-
         error_log("Registration error: " . $e->getMessage());
         header('Location: cadastro.php?error=system_error');
         exit();
     }
 } else {
-
     header('Location: cadastro.php');
     exit();
 }
