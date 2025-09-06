@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/styles.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
     <title>Checklist - CheckAudit</title>
     <style>
         .checklist-table {
@@ -12,13 +12,13 @@
             border-collapse: separate;
             border-spacing: 0;
             margin-top: 2rem;
-            font-size: 1.4rem; /* Reduzido para acomodar mais colunas */
+            font-size: 1.4rem;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 5px 25px rgba(0,0,0,0.4);
         }
         .checklist-table th, .checklist-table td {
-            padding: 1rem; /* Reduzido para economizar espaço */
+            padding: 1rem;
             text-align: left;
         }
         .checklist-table thead {
@@ -27,7 +27,7 @@
         .checklist-table thead th {
             color: #fff;
             font-weight: 600;
-            font-size: 1.4rem; /* Reduzido */
+            font-size: 1.4rem;
             letter-spacing: 0.5px;
         }
         .checklist-table tbody tr {
@@ -48,10 +48,10 @@
         .checklist-table td textarea,
         .checklist-table td select {
             width: 100%;
-            padding: 0.8rem; /* Reduzido */
+            padding: 0.8rem;
             border-radius: 8px;
             border: none;
-            font-size: 1.3rem; /* Reduzido */
+            font-size: 1.3rem;
             background: rgba(255,255,255,0.15);
             color: #ebe5e5ff;
             transition: 0.3s ease;
@@ -63,12 +63,12 @@
             outline: 2px solid #ee4abd;
         }
         .btn-acao {
-            padding: 0.8rem 1.2rem; /* Reduzido */
+            padding: 0.8rem 1.2rem;
             border-radius: 8px;
             cursor: pointer;
             border: none;
             font-weight: 600;
-            font-size: 1.3rem; /* Reduzido */
+            font-size: 1.3rem;
             margin: 0.2rem;
             transition: transform 0.2s ease, box-shadow 0.3s ease;
         }
@@ -79,60 +79,36 @@
         .btn-edit { background: #07ffc9ff; color: #000; }
         .btn-delete { background: #35dc80ff; color: #fff; }
         .btn-save-all { background: #ff6b6b; color: #fff; padding: 1.5rem 3rem; font-size: 1.8rem; }
+        .btn-voltar { 
+            background: linear-gradient(135deg, #6c757d, #495057); 
+            color: #fff; 
+            text-decoration: none; 
+            padding: 1rem 2rem; 
+            border-radius: 8px;
+            margin-right: 1rem;
+            display: inline-block;
+            font-size: 1.4rem;
+        }
 
-        /* Formulário de nova pergunta completa */
-        .form-completo {
+        .auditoria-info {
             background: rgba(255,255,255,0.1);
-            padding: 2rem;
+            padding: 1.5rem;
             border-radius: 12px;
             margin-bottom: 2rem;
             border: 1px solid rgba(255,255,255,0.2);
         }
-        .form-completo h3 {
-            color: #fff;
-            margin-bottom: 1.5rem;
-        }
-        .form-row {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 2fr 1fr 2fr 1fr; /* Atualizado para 7 colunas */
-            gap: 1rem;
+        
+        .auditoria-info h3 {
+            color: #28a745;
             margin-bottom: 1rem;
-        }
-        .form-row > div {
-            display: flex;
-            flex-direction: column;
-            min-height: 110px; /* Altura mínima padronizada para todos os grupos */
-        }
-        .form-row label {
-            color: #fff;
-            font-weight: 600;
-            margin-bottom: 0.8rem;
-            display: block;
-            font-size: 1.4rem; /* Tamanho padronizado */
-            min-height: 2.8rem; /* Altura mínima para padronizar */
-            line-height: 1.4; /* Espaçamento entre linhas */
-        }
-        .form-row input,
-        .form-row select,
-        .form-row textarea {
-            padding: 1rem;
-            border-radius: 8px;
-            border: none;
-            font-size: 1.5rem;
-            background: rgba(255,255,255,0.15);
-            color: #fff;
-            flex: 1; /* Faz o campo ocupar o espaço restante */
-        }
-        .form-row textarea {
-            resize: vertical;
-            min-height: 60px; /* Altura mínima para textareas */
-        }
-        .form-actions {
-            text-align: center;
-            margin-top: 1.5rem;
+            font-size: 1.6rem;
         }
         
-        /* Responsividade para telas menores */
+        .auditoria-info p {
+            color: #f1f1f1;
+            margin-bottom: 0.5rem;
+        }
+
         @media (max-width: 1200px) {
             .checklist-table {
                 font-size: 1.2rem;
@@ -140,29 +116,49 @@
             .checklist-table th, .checklist-table td {
                 padding: 0.8rem;
             }
-            .form-row {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
 <body>
+    <?php
+    require_once "../config/conexao.php";
+    include "../php/functions.php";
+    
+   
+    if (!isset($_GET['id_auditoria']) || empty($_GET['id_auditoria'])) {
+        die("ID da auditoria não foi especificado!");
+    }
+    
+    $id_auditoria = (int)$_GET['id_auditoria'];
+    
+   
+    $dados_auditoria = buscarAudutoriasIdAuditoria($conn, $id_auditoria);
+    if (!$dados_auditoria) {
+        die("Auditoria não encontrada!");
+    }
+    ?>
+    
     <div class="signup-container" style="max-width: 1400px;"> 
+  
+        <div class="auditoria-info">
+            <h3>Checklist da Auditoria: <?= htmlspecialchars($dados_auditoria['titulo_projeto']) ?></h3>
+        
+
         <h2 class="signup-title">Checklist da Auditoria</h2>
 
         <form action="../php/checklist_action.php" method="POST" style="margin-bottom:2rem;">
             <input type="hidden" name="action" value="create">
+            <input type="hidden" name="id_auditoria" value="<?= $id_auditoria ?>">
             <div class="form-group">
-                <label for="pergunta_simples">Adicionar Pergunta</label>
-                <input type="text" id="pergunta_simples" name="pergunta" placeholder="Digite a pergunta">
+                <label for="pergunta_simples">Adicionar Nova Pergunta</label>
+                <input type="text" id="pergunta_simples" name="pergunta" placeholder="Digite a pergunta" required>
             </div>
             <button type="submit" class="signup-btn">Adicionar Pergunta</button>
         </form>
-                
-                
-       
+     
         <form action="../php/checklist_action.php" method="POST" id="formSalvarTudo">
             <input type="hidden" name="action" value="update_all">
+            <input type="hidden" name="id_auditoria" value="<?= $id_auditoria ?>">
             
             <table class="checklist-table">
                 <thead>
@@ -180,16 +176,18 @@
                 </thead>
                 <tbody>
                     <?php
-                    require_once "../config/conexao.php";
-                    $sql = "SELECT * FROM checklist ORDER BY id ASC";
-                    $result = $conn->query($sql);
+                    $sql = "SELECT * FROM checklist WHERE id_auditoria = ? ORDER BY id ASC";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("i", $id_auditoria);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
 
                     if ($result && $result->num_rows > 0) {
                         $num = 1;
                         while($row = $result->fetch_assoc()) {
                             echo "<tr>
                                     <td>{$num}</td>
-                                    <td>{$row['pergunta']}</td>
+                                    <td>" . htmlspecialchars($row['pergunta']) . "</td>
                                     <td>
                                         <select name='resultado[{$row['id']}]'>
                                             <option value='N/A' ".($row['resultado']=='N/A'?'selected':'').">N/A</option>
@@ -198,10 +196,10 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <input type='text' name='responsavel[{$row['id']}]' value='{$row['responsavel']}' placeholder='Nome do responsável'>
+                                        <input type='text' name='responsavel[{$row['id']}]' value='" . htmlspecialchars($row['responsavel']) . "' placeholder='Nome do responsável'>
                                     </td>
                                     <td>
-                                        <textarea name='observacoes[{$row['id']}]' rows='1' placeholder='Observações'>{$row['observacoes']}</textarea>
+                                        <textarea name='observacoes[{$row['id']}]' rows='1' placeholder='Observações'>" . htmlspecialchars($row['observacoes']) . "</textarea>
                                     </td>
                                     <td>
                                         <select name='classificacao_nc[{$row['id']}]'>
@@ -209,18 +207,16 @@
                                             <option value='Menor' ".(isset($row['classificacao_nc']) && $row['classificacao_nc']=='Menor'?'selected':'').">Simples</option>
                                             <option value='Maior' ".(isset($row['classificacao_nc']) && $row['classificacao_nc']=='Maior'?'selected':'').">Media</option>
                                             <option value='Crítica' ".(isset($row['classificacao_nc']) && $row['classificacao_nc']=='Crítica'?'selected':'').">Complexa</option>
-                                           
                                         </select>
                                     </td>
                                     <td>
-                                        <textarea name='acao_corretiva[{$row['id']}]' rows='1' placeholder='Ação corretiva'>".(isset($row['acao_corretiva']) ? $row['acao_corretiva'] : '')."</textarea>
+                                        <textarea name='acao_corretiva[{$row['id']}]' rows='1' placeholder='Ação corretiva'>" . (isset($row['acao_corretiva']) ? htmlspecialchars($row['acao_corretiva']) : '') . "</textarea>
                                     </td>
                                     <td>
                                         <select name='situacao_nc[{$row['id']}]'>
                                             <option value='Pendente' ".(isset($row['situacao_nc']) && $row['situacao_nc']=='Pendente'?'selected':'').">Aberta</option>
                                             <option value='Em Andamento' ".(isset($row['situacao_nc']) && $row['situacao_nc']=='Em Andamento'?'selected':'').">Em Análise</option>
                                             <option value='Concluída' ".(isset($row['situacao_nc']) && $row['situacao_nc']=='Concluída'?'selected':'').">Realizada</option>
-                                        
                                         </select>
                                     </td>
                                     <td>
@@ -230,22 +226,23 @@
                             $num++;
                         }
                     } else {
-                        echo "<tr><td colspan='9' style='text-align:center; color:#ccc;'>Nenhuma pergunta cadastrada.</td></tr>";
+                        echo "<tr><td colspan='9' style='text-align:center; color:#ccc;'>Nenhuma pergunta cadastrada para esta auditoria.</td></tr>";
                     }
                     ?>
                 </tbody>
             </table>
             
             <div class="form-actions" style="margin-top: 2rem;">
+                <a href="auditoria.php?id_auditoria=<?= $id_auditoria ?>" class="btn-voltar">← Voltar para Auditoria</a>
                 <button type="submit" class="btn-acao btn-save-all">Salvar Todas as Alterações</button>
             </div>
         </form>
     </div>
 
-
     <form id="formExcluir" action="../php/checklist_action.php" method="POST" style="display: none;">
         <input type="hidden" name="action" value="delete">
         <input type="hidden" name="id" id="idExcluir">
+        <input type="hidden" name="id_auditoria" value="<?= $id_auditoria ?>">
     </form>
 
     <script>
@@ -257,13 +254,18 @@
             });
         });
 
-       
+      
         function confirmarExclusao(id) {
             if (confirm("Tem certeza que deseja excluir este item?")) {
                 document.getElementById('idExcluir').value = id;
                 document.getElementById('formExcluir').submit();
             }
         }
+
+        <?php if (isset($_SESSION['mensagem'])): ?>
+            alert("<?= $_SESSION['mensagem'] ?>");
+            <?php unset($_SESSION['mensagem']); ?>
+        <?php endif; ?>
     </script>
 </body>
 </html>

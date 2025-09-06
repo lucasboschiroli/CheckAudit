@@ -239,7 +239,7 @@ session_start();
             }
         }
 
-        
+        /* Animação de entrada */
         .aderencia-section {
             animation: fadeInUp 0.6s ease-out;
         }
@@ -273,9 +273,12 @@ include "../config/conexao.php";
     $id_auditoria = $_GET['id_auditoria'];
     $dados_auditoria = buscarAudutoriasIdAuditoria($conn,$id_auditoria);
 
-    
-    $sql = "SELECT resultado, classificacao_nc FROM checklist WHERE resultado IS NOT NULL AND resultado != ''";
-    $result = $conn->query($sql);
+    // Buscar dados do checklist para calcular aderência (específico desta auditoria)
+    $sql = "SELECT resultado, classificacao_nc FROM checklist WHERE id_auditoria = ? AND resultado IS NOT NULL AND resultado != ''";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id_auditoria);
+    $stmt->execute();
+    $result = $stmt->get_result();
     
     $total_perguntas = 0;
     $total_aplicavel = 0; 
@@ -302,7 +305,7 @@ include "../config/conexao.php";
                     $total_conformes++;
                 } elseif ($row['resultado'] == 'NC') {
                     $total_nc++;
-                   
+        
                     if (isset($row['classificacao_nc']) && array_key_exists($row['classificacao_nc'], $nc_por_tipo)) {
                         $nc_por_tipo[$row['classificacao_nc']]++;
                     }
@@ -311,9 +314,8 @@ include "../config/conexao.php";
         }
     }
 
-  
+
     $percentual_aderencia = ($total_aplicavel > 0) ? round(($total_conformes / $total_aplicavel) * 100, 1) : 0;
-    
    
     $classe_aderencia = 'aderencia-ruim';
     $status_aderencia = 'Aderência Baixa';
@@ -344,15 +346,15 @@ include "../config/conexao.php";
         </div>
 
         <?php if ($total_perguntas > 0): ?>
-       
+        <!-- Seção de Aderência -->
         <div class="aderencia-section">
             <h2 class="aderencia-title">
-                <i class="fas fa-chart-pie"></i> Calculo de Aderência por Área
+                <i class="fas fa-chart-pie"></i> Cálculo de Aderência 
             </h2>
             
             <div class="aderencia-grid">
                 <div>
-                  
+                    <!-- Estatísticas -->
                     <div class="aderencia-stats">
                         <div class="stat-card" style="--delay: 1">
                             <span class="stat-number" data-value="<?= $total_perguntas ?>"><?= $total_perguntas ?></span>
@@ -372,7 +374,7 @@ include "../config/conexao.php";
                         </div>
                     </div>
 
-              
+                    <!-- Tabela resumo -->
                     <table class="aderencia-table">
                         <thead>
                             <tr>
@@ -393,7 +395,7 @@ include "../config/conexao.php";
                     </table>
                 </div>
 
-        
+                <!-- Display principal da aderência -->
                 <div class="aderencia-display">
                     <div class="aderencia-valor <?= $classe_aderencia ?>" data-percentage="<?= $percentual_aderencia ?>">
                         <?= $percentual_aderencia ?>%
@@ -403,22 +405,11 @@ include "../config/conexao.php";
                 </div>
             </div>
 
-       
+         
             <?php if ($total_nc > 0): ?>
-            <div class="detalhes-nc">
-                <h4><i class="fas fa-exclamation-triangle"></i> Detalhamento das Não Conformidades</h4>
-                <?php foreach ($nc_por_tipo as $tipo => $quantidade): ?>
-                    <?php if ($quantidade > 0): ?>
-                    <div class="nc-item">
-                        <span><?= $tipo ?>:</span>
-                        <span class="nc-badge"><?= $quantidade ?> item(s)</span>
-                    </div>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-            </div>
+            
             <?php endif; ?>
 
-           
             <div class="formula-explicacao">
                 <small>
                     <strong>Fórmula de Cálculo:</strong> (Itens Conformes ÷ Itens Aplicáveis) × 100<br>
@@ -429,14 +420,16 @@ include "../config/conexao.php";
         <?php endif; ?>
 
         <div class="auditoria-acoes">
-            <button class="signup-btn"> <i class="fa-solid fa-square-plus" style="color: #ffffff;"></i> Criar Checklist</button>
+            <a href="checklist.php?id_auditoria=<?= $id_auditoria ?>" class="signup-btn" style="text-decoration: none; display: inline-block;"> 
+                <i class="fa-solid fa-square-plus" style="color: #ffffff;"></i> Criar Checklist
+            </a>
             <button class="signup-btn"> <i class="fa-solid fa-list-check" style="color: #ffffff;"></i> Realizar Auditoria</button>
         </div>
     </main>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-           
+            // Animar números das estatísticas
             const statNumbers = document.querySelectorAll('.stat-number');
             statNumbers.forEach(element => {
                 const finalValue = parseInt(element.dataset.value);
@@ -455,6 +448,7 @@ include "../config/conexao.php";
                 }, 50);
             });
 
+            // Animar percentual de aderência
             const aderenciaElement = document.querySelector('.aderencia-valor');
             if (aderenciaElement) {
                 const finalPercentage = parseFloat(aderenciaElement.dataset.percentage);
