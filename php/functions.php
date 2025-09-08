@@ -45,6 +45,25 @@ function buscarAudutoriasIdAuditoria($conn, $id_auditoria) {
     return $result->fetch_assoc();
 }
 
+function buscarNaoConformidadesIdChecklist($conn, $id_auditoria){
+    $resultado = "NC";
+    $stmt = $conn->prepare("SELECT * FROM checklist WHERE id_auditoria = ? AND resultado = ?");
+    $stmt->bind_param("is", $id_auditoria, $resultado);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $ncs = [];
+    while($row = $result->fetch_assoc()){
+        $ncs[] = $row;
+    }
+
+    $stmt->close();
+    return $ncs;
+}
+
+
+
+
 
 
 ?>

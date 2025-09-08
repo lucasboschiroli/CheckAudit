@@ -1,0 +1,50 @@
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.1rem; /* espaço entre cards */
+    width: 100%;
+}
+
+.card-nc {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 2rem;
+    flex: 0 0 48%; /* dois cards por linha, com gap */
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    color: #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-nc:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(238, 74, 189, 0.3);
+}
+
+.card-nc h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #ee4abd;
+    display: inline-block;
+    padding-bottom: 0.3rem;
+}
+
+.card-nc p {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+}
+
+.card-nc-botoes {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.card-nc-botoes .botao-verde {
+    padding: 0.6rem 1rem;
+    font-size: 1rem;
+}

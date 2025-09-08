@@ -279,13 +279,13 @@ include "../config/conexao.php";
     $stmt->bind_param("i", $id_auditoria);
     $stmt->execute();
     $result = $stmt->get_result();
-    
+
     $total_perguntas = 0;
-    $total_aplicavel = 0; 
+    $total_aplicavel = 0;
     $total_conformes = 0;
-    $total_nc = 0; 
-    $total_na = 0; 
-    
+    $total_nc = 0;
+    $total_na = 0;
+
     $nc_por_tipo = [
         'Menor' => 0,
         'Maior' => 0,
@@ -296,7 +296,7 @@ include "../config/conexao.php";
     if ($result && $result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
             $total_perguntas++;
-            
+
             if ($row['resultado'] == 'N/A') {
                 $total_na++;
             } else {
@@ -305,7 +305,7 @@ include "../config/conexao.php";
                     $total_conformes++;
                 } elseif ($row['resultado'] == 'NC') {
                     $total_nc++;
-        
+
                     if (isset($row['classificacao_nc']) && array_key_exists($row['classificacao_nc'], $nc_por_tipo)) {
                         $nc_por_tipo[$row['classificacao_nc']]++;
                     }
@@ -316,7 +316,7 @@ include "../config/conexao.php";
 
 
     $percentual_aderencia = ($total_aplicavel > 0) ? round(($total_conformes / $total_aplicavel) * 100, 1) : 0;
-   
+
     $classe_aderencia = 'aderencia-ruim';
     $status_aderencia = 'Aderência Baixa';
     $descricao_aderencia = 'Resultado abaixo de 70%, requer ações corretivas urgentes.';
@@ -353,7 +353,7 @@ include "../config/conexao.php";
                 <a href="realizar_auditoria.php?id_auditoria=<?= $id_auditoria ?>" class="signup-btn" style="text-decoration: none; display: inline-block;">
                     <i class="fa-solid fa-list-check" style="color: #ffffff;"></i> Realizar Auditoria
                 </a>
-                <a href="" class="signup-btn-pink" style="text-decoration: none; display: inline-block;">
+                <a href="ncs.php?id_auditoria=<?= $id_auditoria ?>" class="signup-btn-pink" style="text-decoration: none; display: inline-block;">
                     <i class="fa-solid fa-circle-info" style="color: #ffffff;"></i> Gerenciar Não Conformidade
                 </a>
 
@@ -364,9 +364,9 @@ include "../config/conexao.php";
         <!-- Seção de Aderência -->
         <div class="aderencia-section">
             <h2 class="aderencia-title">
-                <i class="fas fa-chart-pie"></i> Cálculo de Aderência 
+                <i class="fas fa-chart-pie"></i> Cálculo de Aderência
             </h2>
-            
+
             <div class="aderencia-grid">
                 <div>
                     <!-- Estatísticas -->
@@ -420,9 +420,9 @@ include "../config/conexao.php";
                 </div>
             </div>
 
-         
+
             <?php if ($total_nc > 0): ?>
-            
+
             <?php endif; ?>
 
             <div class="formula-explicacao">
@@ -442,7 +442,7 @@ include "../config/conexao.php";
             statNumbers.forEach(element => {
                 const finalValue = parseInt(element.dataset.value);
                 element.textContent = '0';
-                
+
                 let currentValue = 0;
                 const increment = Math.ceil(finalValue / 30) || 1;
                 const timer = setInterval(() => {
@@ -461,7 +461,7 @@ include "../config/conexao.php";
             if (aderenciaElement) {
                 const finalPercentage = parseFloat(aderenciaElement.dataset.percentage);
                 aderenciaElement.textContent = '0%';
-                
+
                 let currentPercentage = 0;
                 const increment = finalPercentage / 30;
                 const timer = setInterval(() => {
