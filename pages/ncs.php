@@ -38,21 +38,34 @@ session_start();
                 ?>
                 <div class="card-nc">
                     <h3>Não-Conformidade #<?= $nc['id'] ?></h3>
-                    <p><strong>Descrição:</strong> <?= htmlspecialchars($nc['pergunta']) ?></p>
+                    <p><strong>Descrição:</strong> <?= htmlspecialchars($nc['observacoes']) ?></p>
                     <p><strong>Responsável:</strong> <?= htmlspecialchars($nc['responsavel']) ?></p>
-                    <p><strong>Prazo para resolução:</strong> <?= htmlspecialchars($nc['resultado']) ?></p>
-                    <p><strong>Tipo:</strong> <?= htmlspecialchars($nc['classificacao_nc']) ?></p>
+                    <p><strong>Data de solicitação 1ª:</strong> <?= htmlspecialchars($nc['created_at']) ?></p>
+                    <p><strong>Prazo para resolução:</strong> <?= htmlspecialchars($nc['prazo_resolucao']) ?></p>
                     <p><strong>Solução adotada:</strong> <?= htmlspecialchars($nc['acao_corretiva']) ?></p>
                     <p><strong>Situação:</strong> <?= htmlspecialchars($nc['situacao_nc']) ?></p>
+                    <p><strong>Escalonamentos:</strong> <?= isset($nc['escalonamento']) ? $nc['escalonamento'] : 0 ?></p>
 
-                    <!-- Novo campo de escalonamento -->
-                    <p><strong>Escalonamentos:</strong> <?= isset($nc['escalonamentos']) ? $nc['escalonamentos'] : 0 ?></p>
-
-                    <!-- Botões -->
-                    <div class="card-nc-botoes">
-                        <button class="botao-verde">Comunicar NC</button>
-                        <button class="botao-verde">Escalonar NC</button>
+                    <div class="card-nc-botoes" >
+                        <a href="ncs.php?id_auditoria=<?= $id_auditoria ?>" class="signup-btn-pink" style="text-decoration: none; display: inline-block;">
+                            <i class="fa-solid fa-signal" style="color: #ffffff;"></i> Escalonar NC
+                        </a>
+                        <a href="ncs.php?id_auditoria=<?= $id_auditoria ?>" class="signup-btn-pink" style="text-decoration: none; display: inline-block;">
+                            <i class="fa-solid fa-paper-plane" style="color: #ffffff;"></i> Comunicar NC
+                        </a>
                     </div>
+
+                    <div>
+                        <?php if ($nc['situacao_nc'] !== 'resolvida'): ?>
+                            <a href="../php/nc-concluida.php?id_nc=<?= $nc['id'] ?>&id_auditoria=<?= $id_auditoria ?>"
+                               class="signup-btn"
+                               style="text-decoration: none; display: inline-block;">
+                                Marcar NC como resolvida
+                                <i class="fa-solid fa-check" style="color: #ffffff;"></i>
+                            </a>
+                        <?php endif; ?>
+                    </div>
+
                 </div>
                 <?php
             }

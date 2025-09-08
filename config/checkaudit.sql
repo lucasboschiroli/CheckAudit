@@ -32,7 +32,7 @@ CREATE TABLE `auditoria` (
   PRIMARY KEY (`id_auditoria`),
   KEY `id_usuario` (`id_usuario`),
   CONSTRAINT `auditoria_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `auditoria` (
 
 LOCK TABLES `auditoria` WRITE;
 /*!40000 ALTER TABLE `auditoria` DISABLE KEYS */;
-INSERT INTO `auditoria` VALUES (1,'Auditoria Teste','Auditoria Teste','2025-09-09','Auditoria Teste',NULL),(2,'Auditoria Teste','Auditoria Teste','2025-09-09','Auditoria Teste',NULL),(3,'AdutitoriaTeste','AdutitoriaTeste','2025-09-12','AdutitoriaTeste',NULL),(4,'AdutitoriaTeste','AdutitoriaTeste','2025-09-30','AdutitoriaTeste',2),(5,NULL,'Auditoria Teste',NULL,'Auditoria Teste',2),(6,NULL,'Corte de Grama',NULL,'Corte de Grama',2),(7,'Blá Blá Blá Blá','Blá Blá Blá Blá',NULL,'Blá Blá Blá Blá',2),(8,'data-realizacao','data-realizacao','2025-09-18','data-realizacao',2);
+INSERT INTO `auditoria` VALUES (1,'Auditoria Teste','Auditoria Teste','2025-09-09','Auditoria Teste',NULL),(2,'Auditoria Teste 01','Auditoria Teste 01','2025-09-01','Auditoria Teste 01',4),(3,'Auditoria Teste 02','Auditoria Teste 02','2025-09-02','Auditoria Teste 02',4),(4,'Teste','Teste','2025-09-03','Teste',5);
 /*!40000 ALTER TABLE `auditoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -54,6 +54,7 @@ DROP TABLE IF EXISTS `checklist`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `checklist` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_auditoria` int(11) NOT NULL,
   `pergunta` varchar(255) NOT NULL,
   `resultado` varchar(10) DEFAULT 'N/A',
   `responsavel` varchar(100) DEFAULT NULL,
@@ -62,8 +63,12 @@ CREATE TABLE `checklist` (
   `classificacao_nc` varchar(50) DEFAULT '',
   `acao_corretiva` text DEFAULT '',
   `situacao_nc` varchar(50) DEFAULT 'Pendente',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `escalonamento` int(11) DEFAULT NULL,
+  `prazo_resolucao` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_auditoria` (`id_auditoria`),
+  CONSTRAINT `fk_checklist_auditoria` FOREIGN KEY (`id_auditoria`) REFERENCES `auditoria` (`id_auditoria`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -72,7 +77,7 @@ CREATE TABLE `checklist` (
 
 LOCK TABLES `checklist` WRITE;
 /*!40000 ALTER TABLE `checklist` DISABLE KEYS */;
-INSERT INTO `checklist` VALUES (15,'arthur','OK','leonadoa','dadda','2025-09-06 03:19:55','','','Concluída'),(17,'arthur','OK','leonado','dadada','2025-09-06 03:54:53','','dadadad','Concluída');
+INSERT INTO `checklist` VALUES (1,1,'arthur','OK','leonadoa','dadda','2025-09-06 19:20:12','','','Concluída',NULL,NULL),(2,1,'arthur','OK','leonado','dadada','2025-09-06 19:20:12','','dadadad','Concluída',NULL,NULL),(3,2,'Pergunta teste?','OK','','','2025-09-06 19:25:04','Maior','','Pendente',NULL,NULL),(4,2,'Pergunta teste 02?','NC','saca','ascaca','2025-09-06 19:45:41','','csacas','Pendente',NULL,NULL),(6,3,'Pergunta teste 02.1?','N/A',NULL,NULL,'2025-09-06 19:54:10','','','Pendente',NULL,NULL),(7,4,'Pergunta teste','NC','','','2025-09-08 03:13:53','','','Pendente',NULL,NULL),(8,4,'vieuvde','NC','','','2025-09-08 03:47:38','','','Pendente',NULL,NULL),(9,4,'nvnvrs','NC','','','2025-09-08 03:47:43','','','Pendente',NULL,NULL);
 /*!40000 ALTER TABLE `checklist` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -93,7 +98,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -102,7 +107,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'lucas','lucas@checkaudit.com','amigo_da_Kelly','2025-09-04 17:40:53','2025-09-04 17:40:53'),(2,'7juliana','7juliana@gmail.com','$2y$10$jwyIscfk1YVgdJWSn7HvLuMn09iEJCpA3zZluZwr5dXIz29LYfNoC','2025-09-04 19:41:42','2025-09-04 19:41:42'),(3,'71juliana','71juliana@gmail.com','$2y$10$Y7E7bQmXIs/3DoHKVJ5MUuXaXFXiI5usipYY6QUjW97QQDfq1bQre','2025-09-04 19:43:39','2025-09-04 19:43:39');
+INSERT INTO `users` VALUES (4,'JulianaVecchiTeste','julianateste@gmail.com','$2y$10$cMKGg2RNeK9qEeoxnBo5..aPegBW85MDezrgZ0tNP3s6nGwlUG.m2','2025-09-06 19:24:18','2025-09-06 19:24:18'),(5,'Juliana','juliana@gmail.com','$2y$10$IZ04iKMAFMyPW2dSqA2wn.JGQZwIxHtQ/7VIXa5uMkZjh74EQbMmS','2025-09-08 02:40:12','2025-09-08 02:40:12');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -115,49 +120,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-09-06  9:43:00
-ALTER TABLE `checklist`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT para tabelas despejadas
---
-
---
--- AUTO_INCREMENT de tabela `checklist`
---
-ALTER TABLE `checklist`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-ALTER TABLE `auditoria`
-  ADD PRIMARY KEY (`id_auditoria`),
-  ADD KEY `id_usuario` (`id_usuario`);
-
---
--- AUTO_INCREMENT para tabelas despejadas
---
-
---
--- AUTO_INCREMENT de tabela `auditoria`
---
-ALTER TABLE `auditoria`
-  MODIFY `id_auditoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- Restrições para tabelas despejadas
---
-
---
--- Restrições para tabelas `auditoria`
---
-ALTER TABLE `auditoria`
-  ADD CONSTRAINT `auditoria_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `users` (`id`);
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- Dump completed on 2025-09-08 12:09:15

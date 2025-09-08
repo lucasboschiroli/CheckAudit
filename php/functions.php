@@ -61,7 +61,13 @@ function buscarNaoConformidadesIdChecklist($conn, $id_auditoria){
     return $ncs;
 }
 
-
+function marcarNCComoResolvida($conn, $id){
+    $resultado = "resolvida";
+    $stmt = $conn->prepare("UPDATE checklist SET situacao_nc = ? WHERE id = ?");
+    $stmt->bind_param("si", $resultado, $id);
+    $stmt->execute();
+    $stmt->close();
+}
 
 
 

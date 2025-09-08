@@ -196,9 +196,9 @@
 
                             $situacao = '';
                             switch($row['situacao_nc']){
-                                case 'Pendente': $situacao = 'Aberta'; break;
-                                case 'Em Andamento': $situacao = 'Em Análise'; break;
-                                case 'Concluída': $situacao = 'Realizada'; break;
+                                case 'pendente': $situacao = 'Aberta'; break;
+                                case 'em andamento': $situacao = 'Em Análise'; break;
+                                case 'resolvida': $situacao = 'Realizada'; break;
                                 default: $situacao = '';
                             }
 
