@@ -9,12 +9,17 @@
 }
 
 .auditoria-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
     padding: 2rem;
     box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    width: 60%;
 }
 
 .auditoria-info h3 {
@@ -34,7 +39,7 @@
 .auditoria-info-acoes {
     display: flex;
     flex-direction: row;
-    gap: 2rem; /* espaçamento entre dados e botões */
+    gap: 2rem;
 }
 
 /* Caixa de dados ocupa 60% */

@@ -38,6 +38,11 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="email_responsavel">E-mail do responsável</label>
+                        <input type="email" id="email_responsavel" name="email_responsavel" placeholder="Informe o E-mail do responsável" required>
+                    </div>
+
+                    <div class="form-group">
                         <label for="data-realizacao">Data realização da auditoria</label>
                         <input type="date" id="data-realizacao" name="data-realizacao" required>
                     </div>

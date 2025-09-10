@@ -50,7 +50,7 @@ session_start();
                         <a href="ncs.php?id_auditoria=<?= $id_auditoria ?>" class="signup-btn-pink" style="text-decoration: none; display: inline-block;">
                             <i class="fa-solid fa-signal" style="color: #ffffff;"></i> Escalonar NC
                         </a>
-                        <a href="ncs.php?id_auditoria=<?= $id_auditoria ?>" class="signup-btn-pink" style="text-decoration: none; display: inline-block;">
+                        <a href="../php/email_nc.php?id_auditoria=<?=$id_auditoria?>" class="signup-btn-pink" style="text-decoration: none; display: inline-block;">
                             <i class="fa-solid fa-paper-plane" style="color: #ffffff;"></i> Comunicar NC
                         </a>
                     </div>

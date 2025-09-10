@@ -12,9 +12,9 @@ function buscarAuditorias(){
     
 }
 
-function inserirAuditoria($conn, $titulo, $responsavel, $data, $objetivo, $id_usuario){
-    $stmt = $conn->prepare("INSERT INTO auditoria (titulo_projeto, responsavel, data_realizacao, objetivo, id_usuario) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssi", $titulo, $responsavel, $data, $objetivo, $id_usuario);
+function inserirAuditoria($conn, $titulo, $responsavel, $data, $objetivo, $id_usuario, $email_responsavel){
+    $stmt = $conn->prepare("INSERT INTO auditoria (titulo_projeto, responsavel, data_realizacao, objetivo, id_usuario, email_responsavel) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssis", $titulo, $responsavel, $data, $objetivo, $id_usuario, $email_responsavel);
     $stmt->execute();
     $stmt->close();
 }
