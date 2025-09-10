@@ -22,7 +22,7 @@
             text-align: left;
         }
         .checklist-table thead {
-            background: linear-gradient(135deg, #28a745, #20c997);
+            background: linear-gradient(135deg, #ee4abd, #d136a0);
         }
         .checklist-table thead th {
             color: #fff;
@@ -77,8 +77,8 @@
             box-shadow: 0 6px 15px rgba(0,0,0,0.3);
         }
         .btn-edit { background: #07ffc9ff; color: #000; }
-        .btn-delete { background: #35dc80ff; color: #fff; }
-        .btn-save-all { background: #ff6b6b; color: #fff; padding: 1.5rem 3rem; font-size: 1.8rem; }
+        .btn-delete { background: #ff6b6b; color: #fff; }
+        .btn-save-all { background: #35dc80ff; color: #fff; padding: 1.5rem 3rem; font-size: 1.8rem; }
         .btn-voltar {
             background: linear-gradient(135deg, #6c757d, #495057);
             color: #fff;
@@ -141,7 +141,7 @@ if (!$dados_auditoria) {
 <div class="signup-container" style="max-width: 1400px;">
 
     <div class="auditoria-info">
-        <h3>Checklist da Auditoria: <?= htmlspecialchars($dados_auditoria['titulo_projeto']) ?></h3>
+        <h3 style="color: #EE4ABD">Checklist da Auditoria: <?= htmlspecialchars($dados_auditoria['titulo_projeto']) ?></h3>
 
 
         <h2 class="signup-title">Realizar Auditoria</h2>
@@ -175,44 +175,59 @@ if (!$dados_auditoria) {
                 if ($result && $result->num_rows > 0) {
                     $num = 1;
                     while($row = $result->fetch_assoc()) {
+                        // Situação da NC sempre aberta
+                        $situacao = "Aberta";
+
+                        // Prazo de resolução (1 a 30 dias)
+                        $prazo_select = "<select name='prazo_resolucao[{$row['id']}]'>";
+                        for ($i = 1; $i <= 30; $i++) {
+                            $selected = ($row['prazo_resolucao'] == $i) ? "selected" : "";
+                            $prazo_select .= "<option value='{$i}' {$selected}>{$i} dias</option>";
+                        }
+                        $prazo_select .= "</select>";
+
                         echo "<tr>
-                                    <td>{$num}</td>
-                                    <td>" . htmlspecialchars($row['pergunta']) . "</td>
-                                    <td>
-                                        <select name='resultado[{$row['id']}]'>
-                                            <option value='N/A' ".($row['resultado']=='N/A'?'selected':'').">N/A</option>
-                                            <option value='OK' ".($row['resultado']=='OK'?'selected':'').">Sim</option>
-                                            <option value='NC' ".($row['resultado']=='NC'?'selected':'').">NC</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input type='text' name='responsavel[{$row['id']}]' value='" . htmlspecialchars($row['responsavel']) . "' placeholder='Nome do responsável'>
-                                    </td>
-                                    <td>
-                                        <textarea name='observacoes[{$row['id']}]' rows='1' placeholder='Observações'>" . htmlspecialchars($row['observacoes']) . "</textarea>
-                                    </td>
-                                    <td>
-                                        <select name='classificacao_nc[{$row['id']}]'>
-                                            <option value=''>Selecione</option>
-                                            <option value='Menor' ".(isset($row['classificacao_nc']) && $row['classificacao_nc']=='Menor'?'selected':'').">Simples</option>
-                                            <option value='Maior' ".(isset($row['classificacao_nc']) && $row['classificacao_nc']=='Maior'?'selected':'').">Media</option>
-                                            <option value='Crítica' ".(isset($row['classificacao_nc']) && $row['classificacao_nc']=='Crítica'?'selected':'').">Complexa</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <textarea name='acao_corretiva[{$row['id']}]' rows='1' placeholder='Ação corretiva'>" . (isset($row['acao_corretiva']) ? htmlspecialchars($row['acao_corretiva']) : '') . "</textarea>
-                                    </td>
-                                    <td>
-                                        <select name='situacao_nc[{$row['id']}]'>
-                                            <option value='Pendente' ".(isset($row['situacao_nc']) && $row['situacao_nc']=='Pendente'?'selected':'').">Aberta</option>
-                                            <option value='Em Andamento' ".(isset($row['situacao_nc']) && $row['situacao_nc']=='Em Andamento'?'selected':'').">Em Análise</option>
-                                            <option value='Concluída' ".(isset($row['situacao_nc']) && $row['situacao_nc']=='Concluída'?'selected':'').">Realizada</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <button type='button' class='btn-acao btn-delete' onclick='confirmarExclusao({$row['id']})'>Excluir</button>
-                                    </td>
-                                  </tr>";
+                <td>{$num}</td>
+                <td>" . htmlspecialchars($row['pergunta']) . "</td>
+                <td>
+                    <select name='resultado[{$row['id']}]'>
+                        <option value='N/A' ".($row['resultado']=='N/A'?'selected':'').">N/A</option>
+                        <option value='OK' ".($row['resultado']=='OK'?'selected':'').">Sim</option>
+                        <option value='NC' ".($row['resultado']=='NC'?'selected':'').">NC</option>
+                    </select>
+                </td>
+                <td>
+                    <input type='text' name='responsavel[{$row['id']}]' value='" . htmlspecialchars($row['responsavel']) . "' placeholder='Nome do responsável'>
+                </td>
+                <td>
+                    <textarea name='observacoes[{$row['id']}]' rows='1' placeholder='Observações'>" . htmlspecialchars($row['observacoes']) . "</textarea>
+                </td>
+                <td>
+                    <select name='classificacao_nc[{$row['id']}]'>
+                        <option value=''>Selecione</option>
+                        <option value='Baixa-Simples'" . (($row['classificacao_nc'] ?? '')=='Baixa-Simples' ? ' selected' : '') . ">Baixa-Simples</option>
+                        <option value='Baixa-Média'" . (($row['classificacao_nc'] ?? '')=='Baixa-Média' ? ' selected' : '') . ">Baixa-Média</option>
+                        <option value='Baixa-Complexa'" . (($row['classificacao_nc'] ?? '')=='Baixa-Complexa' ? ' selected' : '') . ">Baixa-Complexa</option>
+                        <option value='Média-Simples'" . (($row['classificacao_nc'] ?? '')=='Média-Simples' ? ' selected' : '') . ">Média-Simples</option>
+                        <option value='Média-Média'" . (($row['classificacao_nc'] ?? '')=='Média-Média' ? ' selected' : '') . ">Média-Média</option>
+                        <option value='Média-Complexa'" . (($row['classificacao_nc'] ?? '')=='Média-Complexa' ? ' selected' : '') . ">Média-Complexa</option>
+                        <option value='Alta-Simples'" . (($row['classificacao_nc'] ?? '')=='Alta-Simples' ? ' selected' : '') . ">Alta-Simples</option>
+                        <option value='Alta-Média'" . (($row['classificacao_nc'] ?? '')=='Alta-Média' ? ' selected' : '') . ">Alta-Média</option>
+                        <option value='Alta-Complexa'" . (($row['classificacao_nc'] ?? '')=='Alta-Complexa' ? ' selected' : '') . ">Alta-Complexa</option>
+                        <option value='Urgente-Simples'" . (($row['classificacao_nc'] ?? '')=='Urgente-Simples' ? ' selected' : '') . ">Urgente-Simples</option>
+                        <option value='Urgente-Média'" . (($row['classificacao_nc'] ?? '')=='Urgente-Média' ? ' selected' : '') . ">Urgente-Média</option>
+                        <option value='Urgente-Complexa'" . (($row['classificacao_nc'] ?? '')=='Urgente-Complexa' ? ' selected' : '') . ">Urgente-Complexa</option>
+                    </select>
+                </td>
+
+                <td>
+                    <textarea name='acao_corretiva[{$row['id']}]' rows='1' placeholder='Ação corretiva'>" . (isset($row['acao_corretiva']) ? htmlspecialchars($row['acao_corretiva']) : '') . "</textarea>
+                </td>
+                <td>{$prazo_select}</td>
+                <td>
+                    <button type='button' class='btn-acao btn-delete' onclick='confirmarExclusao({$row['id']})'>Excluir</button>
+                </td>
+              </tr>";
                         $num++;
                     }
                 } else {
@@ -220,6 +235,7 @@ if (!$dados_auditoria) {
                 }
                 ?>
                 </tbody>
+
             </table>
 
             <div class="form-actions" style="margin-top: 2rem;">
@@ -235,8 +251,9 @@ if (!$dados_auditoria) {
         <input type="hidden" name="id_auditoria" value="<?= $id_auditoria ?>">
     </form>
 
-    <script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script>
         document.querySelectorAll('textarea').forEach(textarea => {
             textarea.addEventListener('input', function() {
                 this.style.height = 'auto';
@@ -244,18 +261,38 @@ if (!$dados_auditoria) {
             });
         });
 
-
         function confirmarExclusao(id) {
-            if (confirm("Tem certeza que deseja excluir este item?")) {
-                document.getElementById('idExcluir').value = id;
-                document.getElementById('formExcluir').submit();
-            }
+            Swal.fire({
+                title: 'Tem certeza?',
+                text: "Deseja excluir este item?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ee4abd',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Sim, excluir',
+                cancelButtonText: 'Cancelar',
+                background: 'rgba(40,40,40,0.95)',
+                color: '#fff'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('idExcluir').value = id;
+                    document.getElementById('formExcluir').submit();
+                }
+            });
         }
 
         <?php if (isset($_SESSION['mensagem'])): ?>
-        alert("<?= $_SESSION['mensagem'] ?>");
+        Swal.fire({
+            title: 'Aviso',
+            text: "<?= $_SESSION['mensagem'] ?>",
+            icon: 'info',
+            confirmButtonColor: '#ee4abd',
+            background: 'rgba(40,40,40,0.95)',
+            color: '#fff'
+        });
         <?php unset($_SESSION['mensagem']); ?>
         <?php endif; ?>
     </script>
+
 </body>
 </html>

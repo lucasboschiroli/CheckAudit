@@ -131,20 +131,20 @@ session_start();
                     <h3>Não-Conformidade #<?= $nc['id'] ?></h3>
                     <p><strong>Descrição:</strong> <?= htmlspecialchars($nc['observacoes']) ?></p>
                     <p><strong>Responsável:</strong> <?= htmlspecialchars($nc['responsavel']) ?></p>
-                    <p><strong>Data de solicitação 1ª:</strong> <?= htmlspecialchars($nc['created_at']) ?></p>
-                    <?php if (!empty($escalonamentos)) : ?>
-                        <?php if (isset($escalonamentos[0])): ?>
-                            <p><strong>Data de solicitação 2ª:</strong> <?= htmlspecialchars($escalonamentos[0]['data_escalonamento']) ?></p>
-                        <?php endif; ?>
-                        <?php if (isset($escalonamentos[1])): ?>
-                            <p><strong>Data de solicitação 3ª:</strong> <?= htmlspecialchars($escalonamentos[1]['data_escalonamento']) ?></p>
-                        <?php endif; ?>
-                        <?php if (isset($escalonamentos[2])): ?>
-                            <p><strong>Data de solicitação 4ª:</strong> <?= htmlspecialchars($escalonamentos[2]['data_escalonamento']) ?></p>
-                        <?php endif; ?>
+                    <p><strong>Data de solicitação 1ª:</strong> <?= htmlspecialchars(date('d/m/Y', strtotime($nc['created_at']))) ?></p>
+                    <?php if (isset($escalonamentos[0])): ?>
+                        <p><strong>Data de solicitação 2ª:</strong> <?= htmlspecialchars(date('d/m/Y', strtotime($escalonamentos[0]['data_escalonamento']))) ?></p>
+                    <?php endif; ?>
+                    <?php if (isset($escalonamentos[1])): ?>
+                        <p><strong>Data de solicitação 3ª:</strong> <?= htmlspecialchars(date('d/m/Y', strtotime($escalonamentos[1]['data_escalonamento']))) ?></p>
+                    <?php endif; ?>
+                    <?php if (isset($escalonamentos[2])): ?>
+                        <p><strong>Data de solicitação 4ª:</strong> <?= htmlspecialchars(date('d/m/Y', strtotime($escalonamentos[2]['data_escalonamento']))) ?></p>
                     <?php endif; ?>
 
-                    <p><strong>Prazo para resolução:</strong> <?= htmlspecialchars($nc['prazo_resolucao']) ?></p>
+
+                    <p><strong>Classificação da NC:</strong> <?= htmlspecialchars($nc['classificacao_nc']) ?></p>
+                    <p><strong>Prazo para resolução:</strong> <?= htmlspecialchars($nc['prazo_resolucao']) ?> dias</p>
                     <p><strong>Solução adotada:</strong> <?= htmlspecialchars($nc['acao_corretiva']) ?></p>
                     <p><strong>Situação:</strong> <?= htmlspecialchars($nc['situacao_nc']) ?></p>
                     <p><strong>Escalonamentos:</strong> <?= isset($nc['escalonamento']) ? $nc['escalonamento'] : 0 ?></p>

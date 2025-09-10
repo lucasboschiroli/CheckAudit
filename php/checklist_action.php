@@ -106,84 +106,90 @@ function atualizarTodos($conn, $id_auditoria) {
     $classificacao_nc = $_POST['classificacao_nc'] ?? [];
     $acao_corretiva = $_POST['acao_corretiva'] ?? [];
     $situacao_nc = $_POST['situacao_nc'] ?? [];
-    
+    $prazo_resolucao = $_POST['prazo_resolucao'] ?? []; // NOVO CAMPO
+
     if (empty($resultado)) {
         $_SESSION['erro'] = "Nenhum item para atualizar!";
         header("Location: ../pages/checklist.php?id_auditoria=" . $id_auditoria);
         exit;
     }
-    
+
     try {
         $conn->begin_transaction();
-        
+
         foreach ($resultado as $id => $valor) {
             $id = (int)$id;
-            
-         
+
+            // Verifica se o item existe
             $check_sql = "SELECT id FROM checklist WHERE id = ? AND id_auditoria = ?";
             $check_stmt = $conn->prepare($check_sql);
             if (!$check_stmt) {
                 throw new Exception("Erro ao preparar verificação: " . $conn->error);
             }
-            
+
             $check_stmt->bind_param("ii", $id, $id_auditoria);
             $check_stmt->execute();
             $check_result = $check_stmt->get_result();
-            
+
             if ($check_result->num_rows == 0) {
                 $check_stmt->close();
-                continue; 
+                continue;
             }
             $check_stmt->close();
-            
+
+            // Captura os valores enviados
             $resp = isset($responsavel[$id]) ? trim($responsavel[$id]) : '';
             $obs = isset($observacoes[$id]) ? trim($observacoes[$id]) : '';
             $class_nc = isset($classificacao_nc[$id]) ? trim($classificacao_nc[$id]) : '';
             $acao_corr = isset($acao_corretiva[$id]) ? trim($acao_corretiva[$id]) : '';
-            $sit_nc = isset($situacao_nc[$id]) ? trim($situacao_nc[$id]) : 'Pendente';
-            
-        
+            $sit_nc = isset($situacao_nc[$id]) ? trim($situacao_nc[$id]) : 'pendente';
+            $prazo = isset($prazo_resolucao[$id]) ? (int)$prazo_resolucao[$id] : null; // CAPTURA PRAZO
+
+            // Atualiza os dados
             $sql = "UPDATE checklist SET 
                         resultado = ?, 
                         responsavel = ?, 
                         observacoes = ?, 
                         classificacao_nc = ?, 
                         acao_corretiva = ?, 
-                        situacao_nc = ? 
+                        situacao_nc = ?, 
+                        prazo_resolucao = ? 
                     WHERE id = ? AND id_auditoria = ?";
-            
+
             $stmt = $conn->prepare($sql);
             if (!$stmt) {
                 throw new Exception("Erro ao preparar atualização: " . $conn->error);
             }
-            
-            $stmt->bind_param("ssssssii", 
+
+            $stmt->bind_param(
+                "ssssssiii",
                 $valor,
                 $resp,
                 $obs,
                 $class_nc,
                 $acao_corr,
                 $sit_nc,
+                $prazo,
                 $id,
                 $id_auditoria
             );
-            
+
             if (!$stmt->execute()) {
                 throw new Exception("Erro ao executar atualização do item $id: " . $stmt->error);
             }
-            
+
             $stmt->close();
         }
-        
+
         $conn->commit();
         $_SESSION['mensagem'] = "Todas as alterações foram salvas com sucesso!";
-        
+
     } catch (Exception $e) {
         $conn->rollback();
         $_SESSION['erro'] = "Erro ao salvar alterações: " . $e->getMessage();
     }
-    
-    header("Location: ../pages/checklist.php?id_auditoria=" . $id_auditoria);
+
+    header("Location: ../pages/realizar_auditoria.php?id_auditoria=" . $id_auditoria);
     exit;
 }
 

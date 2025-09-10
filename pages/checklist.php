@@ -22,8 +22,9 @@
             text-align: left;
         }
         .checklist-table thead {
-            background: linear-gradient(135deg, #28a745, #20c997);
+            background: linear-gradient(135deg, #ee4abd, #d136a0);
         }
+
         .checklist-table thead th {
             color: #fff;
             font-weight: 600;
@@ -77,13 +78,13 @@
             box-shadow: 0 6px 15px rgba(0,0,0,0.3);
         }
         .btn-edit { background: #07ffc9ff; color: #000; }
-        .btn-delete { background: #35dc80ff; color: #fff; }
-        .btn-save-all { background: #ff6b6b; color: #fff; padding: 1.5rem 3rem; font-size: 1.8rem; }
-        .btn-voltar { 
-            background: linear-gradient(135deg, #6c757d, #495057); 
-            color: #fff; 
-            text-decoration: none; 
-            padding: 1rem 2rem; 
+        .btn-delete { background: #ff6b6b; color: #fff; }
+        .btn-save-all {  color: #fff; padding: 1.5rem 3rem; font-size: 1.8rem; }
+        .btn-voltar {
+            background: linear-gradient(135deg, #6c757d, #495057);
+            color: #fff;
+            text-decoration: none;
+            padding: 1rem 2rem;
             border-radius: 8px;
             margin-right: 1rem;
             display: inline-block;
@@ -97,13 +98,13 @@
             margin-bottom: 2rem;
             border: 1px solid rgba(255,255,255,0.2);
         }
-        
+
         .auditoria-info h3 {
             color: #28a745;
             margin-bottom: 1rem;
             font-size: 1.6rem;
         }
-        
+
         .auditoria-info p {
             color: #f1f1f1;
             margin-bottom: 0.5rem;
@@ -123,26 +124,26 @@
     <?php
     require_once "../config/conexao.php";
     include "../php/functions.php";
-    
-   
+
+
     if (!isset($_GET['id_auditoria']) || empty($_GET['id_auditoria'])) {
         die("ID da auditoria não foi especificado!");
     }
-    
+
     $id_auditoria = (int)$_GET['id_auditoria'];
-    
-   
+
+
     $dados_auditoria = buscarAudutoriasIdAuditoria($conn, $id_auditoria);
     if (!$dados_auditoria) {
         die("Auditoria não encontrada!");
     }
     ?>
-    
-    <div class="signup-container" style="max-width: 1400px;"> 
-  
+
+    <div class="signup-container" style="max-width: 1400px;">
+
         <div class="auditoria-info">
-            <h3>Checklist da Auditoria: <?= htmlspecialchars($dados_auditoria['titulo_projeto']) ?></h3>
-        
+            <h3 style="color:#EE4ABDFF;">Checklist da Auditoria: <?= htmlspecialchars($dados_auditoria['titulo_projeto']) ?></h3>
+
 
         <h2 class="signup-title">Checklist da Auditoria</h2>
 
@@ -153,9 +154,9 @@
                 <label for="pergunta_simples">Adicionar Nova Pergunta</label>
                 <input type="text" id="pergunta_simples" name="pergunta" placeholder="Digite a pergunta" required>
             </div>
-            <button type="submit" class="signup-btn">Adicionar Pergunta</button>
+            <button type="submit" class="signup-btn"> Adicionar Pergunta</button>
         </form>
-     
+
        <form action="../php/checklist_action.php" method="POST" id="formSalvarTudo">
             <input type="hidden" name="action" value="update_all">
             <input type="hidden" name="id_auditoria" value="<?= $id_auditoria ?>">
@@ -236,27 +237,46 @@
         <input type="hidden" name="id_auditoria" value="<?= $id_auditoria ?>">
     </form>
 
-    <script>
-      
-        document.querySelectorAll('textarea').forEach(textarea => {
-            textarea.addEventListener('input', function() {
-                this.style.height = 'auto';
-                this.style.height = this.scrollHeight + 'px';
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            document.querySelectorAll('textarea').forEach(textarea => {
+                textarea.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = this.scrollHeight + 'px';
+                });
             });
-        });
 
-      
-        function confirmarExclusao(id) {
-            if (confirm("Tem certeza que deseja excluir este item?")) {
-                document.getElementById('idExcluir').value = id;
-                document.getElementById('formExcluir').submit();
+            function confirmarExclusao(id) {
+                Swal.fire({
+                    title: 'Tem certeza?',
+                    text: "Deseja excluir este item?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ee4abd',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Sim, excluir',
+                    cancelButtonText: 'Cancelar',
+                    background: '#f8f9fa',
+                    color: '#333'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('idExcluir').value = id;
+                        document.getElementById('formExcluir').submit();
+                    }
+                });
             }
-        }
 
-        <?php if (isset($_SESSION['mensagem'])): ?>
-            alert("<?= $_SESSION['mensagem'] ?>");
+            <?php if (isset($_SESSION['mensagem'])): ?>
+            Swal.fire({
+                title: 'Aviso',
+                text: "<?= $_SESSION['mensagem'] ?>",
+                icon: 'info',
+                confirmButtonColor: '#ee4abd',
+                background: '#f8f9fa',
+                color: '#333'
+            });
             <?php unset($_SESSION['mensagem']); ?>
-        <?php endif; ?>
-    </script>
+            <?php endif; ?>
+        </script>
 </body>
 </html>
