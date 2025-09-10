@@ -29,10 +29,11 @@ CREATE TABLE `auditoria` (
   `data_realizacao` date DEFAULT NULL,
   `objetivo` text DEFAULT NULL,
   `id_usuario` int(11) DEFAULT NULL,
+  `email_responsavel` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_auditoria`),
   KEY `id_usuario` (`id_usuario`),
   CONSTRAINT `auditoria_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +42,7 @@ CREATE TABLE `auditoria` (
 
 LOCK TABLES `auditoria` WRITE;
 /*!40000 ALTER TABLE `auditoria` DISABLE KEYS */;
-INSERT INTO `auditoria` VALUES (1,'Auditoria Teste','Auditoria Teste','2025-09-09','Auditoria Teste',NULL),(2,'Auditoria Teste 01','Auditoria Teste 01','2025-09-01','Auditoria Teste 01',4),(3,'Auditoria Teste 02','Auditoria Teste 02','2025-09-02','Auditoria Teste 02',4),(4,'Teste','Teste','2025-09-03','Teste',5);
+INSERT INTO `auditoria` VALUES (1,'Auditoria Teste','Auditoria Teste','2025-09-09','Auditoria Teste',NULL,NULL),(2,'Auditoria Teste 01','Auditoria Teste 01','2025-09-01','Auditoria Teste 01',4,NULL),(3,'Auditoria Teste 02','Auditoria Teste 02','2025-09-02','Auditoria Teste 02',4,NULL),(4,'Teste','Teste','2025-09-03','Teste',5,NULL),(5,'Corte de Grama','Corte de Grama','2025-09-04','Corte de Grama',5,NULL),(6,'Blá Blá Blá Blá','Blá Blá Blá Blá','2025-09-22','Blá Blá Blá Blá',5,'Bla@gmail.com'),(7,'Teste','juliana','2025-09-30','data-realizacao',5,'julianaaparecidavecchi@gmail.com');
 /*!40000 ALTER TABLE `auditoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -68,7 +69,7 @@ CREATE TABLE `checklist` (
   PRIMARY KEY (`id`),
   KEY `id_auditoria` (`id_auditoria`),
   CONSTRAINT `fk_checklist_auditoria` FOREIGN KEY (`id_auditoria`) REFERENCES `auditoria` (`id_auditoria`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -77,8 +78,37 @@ CREATE TABLE `checklist` (
 
 LOCK TABLES `checklist` WRITE;
 /*!40000 ALTER TABLE `checklist` DISABLE KEYS */;
-INSERT INTO `checklist` VALUES (1,1,'arthur','OK','leonadoa','dadda','2025-09-06 19:20:12','','','Concluída',NULL,NULL),(2,1,'arthur','OK','leonado','dadada','2025-09-06 19:20:12','','dadadad','Concluída',NULL,NULL),(3,2,'Pergunta teste?','OK','','','2025-09-06 19:25:04','Maior','','Pendente',NULL,NULL),(4,2,'Pergunta teste 02?','NC','saca','ascaca','2025-09-06 19:45:41','','csacas','Pendente',NULL,NULL),(6,3,'Pergunta teste 02.1?','N/A',NULL,NULL,'2025-09-06 19:54:10','','','Pendente',NULL,NULL),(7,4,'Pergunta teste','NC','','','2025-09-08 03:13:53','','','Pendente',NULL,NULL),(8,4,'vieuvde','NC','','','2025-09-08 03:47:38','','','Pendente',NULL,NULL),(9,4,'nvnvrs','NC','','','2025-09-08 03:47:43','','','Pendente',NULL,NULL);
+INSERT INTO `checklist` VALUES (1,1,'arthur','OK','leonadoa','dadda','2025-09-06 19:20:12','','','pendente',NULL,NULL),(2,1,'arthur','OK','leonado','dadada','2025-09-06 19:20:12','','dadadad','pendente',3,NULL),(3,2,'Pergunta teste?','OK','','','2025-09-06 19:25:04','Maior','','pendente',NULL,NULL),(4,2,'Pergunta teste 02?','NC','saca','ascaca','2025-09-06 19:45:41','','csacas','pendente',NULL,NULL),(6,3,'Pergunta teste 02.1?','N/A',NULL,NULL,'2025-09-06 19:54:10','','','pendente',NULL,NULL),(7,4,'Pergunta teste','NC','','','2025-09-08 03:13:53','','','resolvida',2,NULL),(8,4,'vieuvde','NC','','','2025-09-08 03:47:38','','','pendente',2,NULL),(9,4,'nvnvrs','NC','','','2025-09-08 03:47:43','','','pendente',NULL,NULL),(10,5,'vd','NC','','','2025-09-08 15:46:58','','','Pendente',NULL,NULL),(11,6,'Pergunta teste 02?','NC','','','2025-09-09 19:40:43','','','Pendente',NULL,NULL),(12,7,'Pergunta teste 02?','NC','','','2025-09-09 20:17:55','','','Pendente',1,NULL);
 /*!40000 ALTER TABLE `checklist` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `escalonamento`
+--
+
+DROP TABLE IF EXISTS `escalonamento`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `escalonamento` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_nc` int(11) NOT NULL,
+  `responsavel_imediato` varchar(255) NOT NULL,
+  `email_responsavel_imediato` varchar(255) NOT NULL,
+  `data_escalonamento` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `id_nc` (`id_nc`),
+  CONSTRAINT `escalonamento_ibfk_1` FOREIGN KEY (`id_nc`) REFERENCES `checklist` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `escalonamento`
+--
+
+LOCK TABLES `escalonamento` WRITE;
+/*!40000 ALTER TABLE `escalonamento` DISABLE KEYS */;
+INSERT INTO `escalonamento` VALUES (1,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:07:21'),(2,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:08:20'),(3,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:10:12'),(4,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:11:00'),(5,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:12:57'),(6,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:14:08'),(7,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:14:20'),(8,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:14:45'),(9,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:22:42'),(10,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:22:58'),(11,12,'Julianaaa','julianaaparecidavecchi@gmail.comx','2025-09-10 00:32:36'),(12,7,'s','julianaaparecidavecchi@gmail.comx','2025-09-10 00:35:22'),(13,7,'k','julianaaparecidavecchi@gmail.com','2025-09-10 00:36:07');
+/*!40000 ALTER TABLE `escalonamento` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -120,4 +150,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-09-08 12:09:15
+-- Dump completed on 2025-09-10  0:38:17
