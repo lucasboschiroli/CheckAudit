@@ -5,11 +5,11 @@ function BuscarUsuarioEmail($conn, $email_login) {
     $stmt->execute();
     $result = $stmt->get_result();
     $stmt->close();
-    return $result->fetch_assoc(); 
+    return $result->fetch_assoc();
 }
 
 function buscarAuditorias(){
-    
+
 }
 
 function inserirAuditoria($conn, $titulo, $responsavel, $data, $objetivo, $id_usuario, $email_responsavel){
@@ -68,6 +68,48 @@ function marcarNCComoResolvida($conn, $id){
     $stmt->execute();
     $stmt->close();
 }
+
+function inserirEscalonamento($conn, $id_nc, $responsavel, $email) {
+    $sql = "INSERT INTO escalonamento (id_nc, responsavel_imediato, email_responsavel_imediato, data_escalonamento)
+            VALUES (?, ?, ?, NOW())";
+
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        // Erro no prepare
+        return false;
+    }
+
+    $stmt->bind_param("iss", $id_nc, $responsavel, $email);
+
+    if ($stmt->execute()) {
+        return true; // sucesso
+    } else {
+        return false; // erro ao executar
+    }
+
+}
+
+function buscarEscalonamentosPorNC($conn, $id_nc) {
+    $stmt = $conn->prepare("SELECT * FROM escalonamento WHERE id_nc = ? ORDER BY data_escalonamento ASC");
+    if (!$stmt) {
+        return []; // retorna array vazio se falhar
+    }
+
+    $stmt->bind_param("i", $id_nc);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+    $escalonamentos = [];
+
+    while ($row = $result->fetch_assoc()) {
+        $escalonamentos[] = $row;
+    }
+
+    $stmt->close();
+    return $escalonamentos;
+}
+
+
 
 
 
