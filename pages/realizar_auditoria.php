@@ -193,7 +193,7 @@ if (!$dados_auditoria) {
                     <select name='resultado[{$row['id']}]'>
                         <option value='N/A' ".($row['resultado']=='N/A'?'selected':'').">N/A</option>
                         <option value='OK' ".($row['resultado']=='OK'?'selected':'').">Sim</option>
-                        <option value='NC' ".($row['resultado']=='NC'?'selected':'').">NC</option>
+                        <option value='NC' ".($row['resultado']=='NC'?'selected':'').">Não</option>
                     </select>
                 </td>
                 <td>

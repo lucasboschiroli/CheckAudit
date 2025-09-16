@@ -150,20 +150,22 @@ session_start();
                     <p><strong>Escalonamentos:</strong> <?= isset($nc['escalonamento']) ? $nc['escalonamento'] : 0 ?></p>
 
                     <div class="card-nc-botoes" >
+                <?php if ($nc['situacao_nc'] !== 'resolvida'): ?>
                         <a href="#"
                            class="signup-btn-pink"
                            onclick="abrirModal(<?= $nc['id'] ?>)">
                             <i class="fa-solid fa-signal"></i> Escalonar NC
                         </a>
 
-                        <a href="../php/email_nc.php?id_auditoria=<?=$id_auditoria?>" class="signup-btn-pink" style="text-decoration: none; display: inline-block;">
+                        <a href="../php/email_nc.php?id_auditoria=<?=$id_auditoria?>&id_nc=<?=$nc['id']?>" class="signup-btn-pink" style="text-decoration: none; display: inline-block;">
                             <i class="fa-solid fa-paper-plane" style="color: #ffffff;"></i> Comunicar NC
                         </a>
+                <?php endif; ?>
                     </div>
 
                     <div>
                         <?php if ($nc['situacao_nc'] !== 'resolvida'): ?>
-                            <a href="../php/nc-concluida.php?id_nc=<?= $nc['id'] ?>&id_auditoria=<?= $id_auditoria ?>"
+                            <a href="../php/nc-concluida.php?id_nc=<?= $nc['id'] ?>&id_auditoria=<?= $id_auditoria?>"
                                class="signup-btn"
                                style="text-decoration: none; display: inline-block;">
                                 Marcar NC como resolvida
@@ -186,7 +188,7 @@ session_start();
                 <span class="fechar" onclick="fecharModal()">&times;</span>
                 <h2>Escalonar NC</h2>
 
-                <form action="../php/comunicar_superior.php" method="POST" class="form">
+                <form action="../php/comunicar_superior.php?id_auditoria=<?=$id_auditoria?>&id_nc=<?= $nc['id'] ?>" method="POST" class="form">
                     <input type="hidden" name="id_nc" id="id_nc_modal">
 
                     <div class="form-group">

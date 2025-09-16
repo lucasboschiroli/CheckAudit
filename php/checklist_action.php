@@ -142,7 +142,7 @@ function atualizarTodos($conn, $id_auditoria) {
             $obs = isset($observacoes[$id]) ? trim($observacoes[$id]) : '';
             $class_nc = isset($classificacao_nc[$id]) ? trim($classificacao_nc[$id]) : '';
             $acao_corr = isset($acao_corretiva[$id]) ? trim($acao_corretiva[$id]) : '';
-            $sit_nc = isset($situacao_nc[$id]) ? trim($situacao_nc[$id]) : 'pendente';
+            $sit_nc = isset($situacao_nc[$id]) ? trim($situacao_nc[$id]) : 'aberta';
             $prazo = isset($prazo_resolucao[$id]) ? (int)$prazo_resolucao[$id] : null; // CAPTURA PRAZO
 
             // Atualiza os dados

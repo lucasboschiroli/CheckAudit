@@ -20,25 +20,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (inserirEscalonamento($conn, $id_nc, $responsavel, $email)) {
 
             // 3️⃣ Incrementar número de escalonamentos na NC
-            // Incrementar número de escalonamentos na NC, tratando NULL como 0
             $stmt = $conn->prepare("
-            UPDATE checklist 
-            SET escalonamento = COALESCE(escalonamento, 0) + 1 
-            WHERE id = ?
+                UPDATE checklist 
+                SET escalonamento = COALESCE(escalonamento, 0) + 1 
+                WHERE id = ?
             ");
             $stmt->bind_param("i", $id_nc);
             $stmt->execute();
             $stmt->close();
 
-
-            // 4️⃣ Buscar NC específica usando função existente
-            $id_auditoria = 0;
-            $ncs = [];
+            // 4️⃣ Buscar NC específica
             $stmt = $conn->prepare("SELECT * FROM checklist WHERE id = ?");
             $stmt->bind_param("i", $id_nc);
             $stmt->execute();
             $result = $stmt->get_result();
-            if($result->num_rows > 0){
+            if ($result->num_rows > 0) {
                 $nc = $result->fetch_assoc();
                 $id_auditoria = $nc['id_auditoria'];
             } else {
@@ -51,7 +47,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // 5️⃣ Buscar dados da auditoria
             $auditoria = buscarAudutoriasIdAuditoria($conn, $id_auditoria);
 
-            // 6️⃣ Enviar e-mail para o superior imediato
+            // 6️⃣ Buscar histórico de escalonamento
+            $escalonamentos = [];
+            $stmt = $conn->prepare("SELECT * FROM escalonamento WHERE id_nc = ? ORDER BY data_escalonamento ASC");
+            $stmt->bind_param("i", $id_nc);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            while ($row = $result->fetch_assoc()) {
+                $escalonamentos[] = $row;
+            }
+            $stmt->close();
+
+            $historico_escalonamento = '';
+            if (!empty($escalonamentos)) {
+                $historico_escalonamento .= '<h3>Histórico de Escalonamentos:</h3><ul style="padding-left:20px;">';
+                foreach ($escalonamentos as $esc) {
+                    $data = date('d/m/Y H:i', strtotime($esc['data_escalonamento']));
+                    $historico_escalonamento .= "<li>{$esc['responsavel_imediato']} ({$esc['email_responsavel_imediato']}) - {$data}</li>";
+                }
+                $historico_escalonamento .= '</ul>';
+            }
+
+            // 7️⃣ Enviar e-mail com PHPMailer
             $mail = new PHPMailer(true);
             try {
                 $mail->isSMTP();
@@ -66,18 +83,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $mail->addAddress($email, $responsavel);
 
                 $mail->isHTML(true);
-                $mail->Subject = "Escalonamento - Solicitação de Resolução de NC #{$nc['id']}";
-                $mail->Body = "
-                    <h2>Escalonamento de Não Conformidade</h2>
-                    <p><b>Projeto auditado:</b> {$auditoria['titulo_projeto']}</p>
-                    <p><b>Responsável:</b> {$auditoria['responsavel']}</p>
-                    <p><b>Superior imediato:</b> {$responsavel}</p>
-                    <p><b>Prazo para resolução:</b> {$nc['prazo_resolucao']}</p>
-                    <p><b>Descrição detalhada:</b> {$nc['observacoes']}</p>
-                ";
-                $mail->AltBody = "Escalonamento NC #{$nc['id']}. Verifique no sistema.";
-                $mail->send();
+                $mail->Subject = "Escalonamento - NC #{$nc['id']}";
 
+                $mail->Body = "
+                <div style='font-family: Arial, sans-serif; line-height:1.6; max-width:600px; margin:auto; color:#000; font-size:14px;'>
+                    <h2 style='color:#dc3545; text-align:center;'>Escalonamento de Não Conformidade</h2>
+                    <p><b>Projeto auditado:</b> {$auditoria['titulo_projeto']}</p>
+                    <p><b>Responsável pelo projeto:</b> {$auditoria['responsavel']}</p>
+                    <p><b>NC #:</b> {$nc['id']}</p>
+                    <p><b>Superior imediato:</b> {$responsavel}</p>
+                    <p><b>Prazo para resolução:</b> {$nc['prazo_resolucao']} dias</p>
+                    <hr>
+                    <h3>Descrição:</h3>
+                    <p>{$nc['observacoes']}</p>
+                    {$historico_escalonamento}
+                    <p style='margin-top:20px; color:#555; font-size:13px;'>Você tem 24 horas úteis para contestação.</p>
+                </div>
+                ";
+
+                $mail->AltBody = "Escalonamento NC #{$nc['id']}. Verifique no sistema.";
+
+                $mail->send();
                 $_SESSION['msg'] = "Escalonamento registrado e e-mail enviado com sucesso!";
 
             } catch (Exception $e) {
@@ -92,6 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['msg'] = "Dados inválidos. Verifique os campos.";
     }
 
+    marcarNCComoEscalonada($conn,$id_nc );
     // Redirecionar para a página de NCs da auditoria
     header("Location: ../pages/ncs.php?id_auditoria=" . $id_auditoria);
     exit();

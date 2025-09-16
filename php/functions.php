@@ -69,6 +69,22 @@ function marcarNCComoResolvida($conn, $id){
     $stmt->close();
 }
 
+function marcarNCComoComunicada($conn, $id){
+    $resultado = "comunicada";
+    $stmt = $conn->prepare("UPDATE checklist SET situacao_nc = ? WHERE id = ?");
+    $stmt->bind_param("si", $resultado, $id);
+    $stmt->execute();
+    $stmt->close();
+}
+
+function marcarNCComoEscalonada($conn, $id){
+    $resultado = "escalonada";
+    $stmt = $conn->prepare("UPDATE checklist SET situacao_nc = ? WHERE id = ?");
+    $stmt->bind_param("si", $resultado, $id);
+    $stmt->execute();
+    $stmt->close();
+}
+
 function inserirEscalonamento($conn, $id_nc, $responsavel, $email) {
     $sql = "INSERT INTO escalonamento (id_nc, responsavel_imediato, email_responsavel_imediato, data_escalonamento)
             VALUES (?, ?, ?, NOW())";
@@ -107,6 +123,17 @@ function buscarEscalonamentosPorNC($conn, $id_nc) {
 
     $stmt->close();
     return $escalonamentos;
+}
+
+function buscarNaoConformidadePorId($conn, $id_nc){
+    $stmt = $conn->prepare("SELECT * FROM checklist WHERE id = ? ");
+    $stmt->bind_param("i", $id_nc);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
+    return $result->fetch_assoc();
+
+
 }
 
 
