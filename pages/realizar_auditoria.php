@@ -157,11 +157,12 @@ if (!$dados_auditoria) {
                     <th style="width: 20%;">Descrição</th>
                     <th style="width: 7%;">Resultado</th>
                     <th style="width: 12%;">Responsável</th>
-                    <th style="width: 16%;">Observações</th>
                     <th style="width: 11%;">Classificação da NC</th>
+
+                    <th style="width: 10%;">Prazo de resolução</th>
                     <th style="width: 17%;">Ação Corretiva Indicada</th>
-                    <th style="width: 10%;">Situação da NC</th>
-                    <th style="width: 8%;">Ações</th>
+                    <th style="width: 16%;">Observações</th>
+                    <th style="width: 8%;"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -175,16 +176,20 @@ if (!$dados_auditoria) {
                 if ($result && $result->num_rows > 0) {
                     $num = 1;
                     while($row = $result->fetch_assoc()) {
-                        // Situação da NC sempre aberta
-                        $situacao = "Aberta";
-
                         // Prazo de resolução (1 a 30 dias)
                         $prazo_select = "<select name='prazo_resolucao[{$row['id']}]'>";
+
+// Opção padrão "Selecione" sempre no início
+                        $prazo_select .= "<option value=''>Selecione</option>";
+
                         for ($i = 1; $i <= 30; $i++) {
+                            // Marca como selected apenas se $row['prazo_resolucao'] tiver valor correspondente
                             $selected = ($row['prazo_resolucao'] == $i) ? "selected" : "";
                             $prazo_select .= "<option value='{$i}' {$selected}>{$i} dias</option>";
                         }
+
                         $prazo_select .= "</select>";
+
 
                         echo "<tr>
                 <td>{$num}</td>
@@ -197,11 +202,9 @@ if (!$dados_auditoria) {
                     </select>
                 </td>
                 <td>
-                    <input type='text' name='responsavel[{$row['id']}]' value='" . htmlspecialchars($row['responsavel']) . "' placeholder='Nome do responsável'>
+                    <input type='text' name='responsavel[{$row['id']}]' value='" . htmlspecialchars($dados_auditoria['responsavel']) . "' placeholder='Nome do responsável'>
                 </td>
-                <td>
-                    <textarea name='observacoes[{$row['id']}]' rows='1' placeholder='Observações'>" . htmlspecialchars($row['observacoes']) . "</textarea>
-                </td>
+             
                 <td>
                     <select name='classificacao_nc[{$row['id']}]'>
                         <option value=''>Selecione</option>
@@ -220,10 +223,14 @@ if (!$dados_auditoria) {
                     </select>
                 </td>
 
+                
+                <td>{$prazo_select}</td>
                 <td>
                     <textarea name='acao_corretiva[{$row['id']}]' rows='1' placeholder='Ação corretiva'>" . (isset($row['acao_corretiva']) ? htmlspecialchars($row['acao_corretiva']) : '') . "</textarea>
                 </td>
-                <td>{$prazo_select}</td>
+                 <td>
+                    <textarea name='observacoes[{$row['id']}]' rows='1' placeholder='Observações'>" . htmlspecialchars($row['observacoes']) . "</textarea>
+                </td>
                 <td>
                     <button type='button' class='btn-acao btn-delete' onclick='confirmarExclusao({$row['id']})'>Excluir</button>
                 </td>
