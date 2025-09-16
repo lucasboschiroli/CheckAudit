@@ -33,7 +33,7 @@ CREATE TABLE `auditoria` (
   PRIMARY KEY (`id_auditoria`),
   KEY `id_usuario` (`id_usuario`),
   CONSTRAINT `auditoria_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `auditoria` (
 
 LOCK TABLES `auditoria` WRITE;
 /*!40000 ALTER TABLE `auditoria` DISABLE KEYS */;
-INSERT INTO `auditoria` VALUES (1,'Auditoria Teste','Auditoria Teste','2025-09-09','Auditoria Teste',NULL,NULL),(2,'Auditoria Teste 01','Auditoria Teste 01','2025-09-01','Auditoria Teste 01',4,NULL),(3,'Auditoria Teste 02','Auditoria Teste 02','2025-09-02','Auditoria Teste 02',4,NULL),(4,'Teste','Teste','2025-09-03','Teste',5,NULL),(5,'Corte de Grama','Corte de Grama','2025-09-04','Corte de Grama',5,NULL),(6,'Blá Blá Blá Blá','Blá Blá Blá Blá','2025-09-22','Blá Blá Blá Blá',5,'Bla@gmail.com'),(7,'Teste','juliana','2025-09-30','data-realizacao',5,'julianaaparecidavecchi@gmail.com');
+INSERT INTO `auditoria` VALUES (1,'Auditoria Teste','Auditoria Teste','2025-09-09','Auditoria Teste',NULL,NULL),(2,'Auditoria Teste 01','Auditoria Teste 01','2025-09-01','Auditoria Teste 01',4,NULL),(3,'Auditoria Teste 02','Auditoria Teste 02','2025-09-02','Auditoria Teste 02',4,NULL),(4,'Teste','Teste','2025-09-03','Teste',5,NULL),(5,'Corte de Grama','Corte de Grama','2025-09-04','Corte de Grama',5,NULL),(6,'Blá Blá Blá Blá','Blá Blá Blá Blá','2025-09-22','Blá Blá Blá Blá',5,'Bla@gmail.com'),(7,'Teste','juliana','2025-09-30','data-realizacao',5,'julianaaparecidavecchi@gmail.com'),(8,'Auditoria Teste - vídeo','Juliana Aparecida','2025-09-11','Ver se todas as funcionalidades do sistema funciona',5,'julianaaparecidavecchi@gmail.com'),(9,'dsfsdfs','dfssdf','2025-10-02','sfs',5,'fsfsdfsdsfs@gndjnd.gsgsd');
 /*!40000 ALTER TABLE `auditoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -64,12 +64,12 @@ CREATE TABLE `checklist` (
   `classificacao_nc` varchar(50) DEFAULT '',
   `acao_corretiva` text DEFAULT '',
   `situacao_nc` varchar(50) DEFAULT 'Pendente',
-  `escalonamento` int(11) DEFAULT NULL,
+  `escalonamento` int(11) DEFAULT 0,
   `prazo_resolucao` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_auditoria` (`id_auditoria`),
   CONSTRAINT `fk_checklist_auditoria` FOREIGN KEY (`id_auditoria`) REFERENCES `auditoria` (`id_auditoria`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -78,7 +78,7 @@ CREATE TABLE `checklist` (
 
 LOCK TABLES `checklist` WRITE;
 /*!40000 ALTER TABLE `checklist` DISABLE KEYS */;
-INSERT INTO `checklist` VALUES (1,1,'arthur','OK','leonadoa','dadda','2025-09-06 19:20:12','','','pendente',NULL,NULL),(2,1,'arthur','OK','leonado','dadada','2025-09-06 19:20:12','','dadadad','pendente',3,NULL),(3,2,'Pergunta teste?','OK','','','2025-09-06 19:25:04','Maior','','pendente',NULL,NULL),(4,2,'Pergunta teste 02?','NC','saca','ascaca','2025-09-06 19:45:41','','csacas','pendente',NULL,NULL),(6,3,'Pergunta teste 02.1?','N/A',NULL,NULL,'2025-09-06 19:54:10','','','pendente',NULL,NULL),(7,4,'Pergunta teste','NC','','','2025-09-08 03:13:53','','','resolvida',2,NULL),(8,4,'vieuvde','NC','','','2025-09-08 03:47:38','','','pendente',2,NULL),(9,4,'nvnvrs','NC','','','2025-09-08 03:47:43','','','pendente',NULL,NULL),(10,5,'vd','NC','','','2025-09-08 15:46:58','','','Pendente',NULL,NULL),(11,6,'Pergunta teste 02?','NC','','','2025-09-09 19:40:43','','','Pendente',NULL,NULL),(12,7,'Pergunta teste 02?','NC','','','2025-09-09 20:17:55','','','Pendente',1,NULL);
+INSERT INTO `checklist` VALUES (1,1,'arthur','OK','leonadoa','dadda','2025-09-06 19:20:12','','','pendente',0,NULL),(2,1,'arthur','OK','leonado','dadada','2025-09-06 19:20:12','','dadadad','pendente',0,NULL),(3,2,'Pergunta teste?','OK','','','2025-09-06 19:25:04','Maior','','pendente',0,NULL),(4,2,'Pergunta teste 02?','NC','saca','ascaca','2025-09-06 19:45:41','','csacas','pendente',0,NULL),(6,3,'Pergunta teste 02.1?','N/A',NULL,NULL,'2025-09-06 19:54:10','','','pendente',0,NULL),(7,4,'Pergunta teste','NC','','','2025-09-08 03:13:53','','','resolvida',0,NULL),(8,4,'vieuvde','NC','','','2025-09-08 03:47:38','','','pendente',0,NULL),(9,4,'nvnvrs','NC','','','2025-09-08 03:47:43','','','pendente',0,NULL),(10,5,'vd','NC','','','2025-09-08 15:46:58','','','Pendente',0,NULL),(11,6,'Pergunta teste 02?','NC','','','2025-09-09 19:40:43','','','Pendente',0,NULL),(12,7,'Pergunta teste 02?','NC','','','2025-09-09 20:17:55','','','Pendente',0,NULL),(18,8,'Pergunta teste 02?','OK','Fulano','Não possui','2025-09-10 11:35:11','Urgente-Simples','tal','aberta',0,28),(19,8,'Pergunta teste 02?','NC','','cmm','2025-09-10 12:00:54','','','resolvida',3,15),(21,8,'Pergunta teste 02?','NC','','','2025-09-10 12:03:20','','','resolvida',2,1),(22,8,'Pergunta teste 02.1ssss?','NC','','','2025-09-10 12:05:43','','','escalonada',2,1),(23,8,'gjkj','NC','Ju','dawwadw','2025-09-16 02:10:29','Urgente-Simples','dwadwa','escalonada',1,20),(24,8,'Pergunta teste 02?hddh','NC','','','2025-09-16 03:29:33','','','aberta',0,1),(25,8,'dqdwq','N/A','','','2025-09-16 03:30:56','','','aberta',0,1),(26,8,'Pergunta teste?888','NC','','','2025-09-16 03:55:19','','','comunicada',0,1);
 /*!40000 ALTER TABLE `checklist` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -98,7 +98,7 @@ CREATE TABLE `escalonamento` (
   PRIMARY KEY (`id`),
   KEY `id_nc` (`id_nc`),
   CONSTRAINT `escalonamento_ibfk_1` FOREIGN KEY (`id_nc`) REFERENCES `checklist` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -107,7 +107,7 @@ CREATE TABLE `escalonamento` (
 
 LOCK TABLES `escalonamento` WRITE;
 /*!40000 ALTER TABLE `escalonamento` DISABLE KEYS */;
-INSERT INTO `escalonamento` VALUES (1,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:07:21'),(2,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:08:20'),(3,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:10:12'),(4,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:11:00'),(5,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:12:57'),(6,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:14:08'),(7,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:14:20'),(8,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:14:45'),(9,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:22:42'),(10,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:22:58'),(11,12,'Julianaaa','julianaaparecidavecchi@gmail.comx','2025-09-10 00:32:36'),(12,7,'s','julianaaparecidavecchi@gmail.comx','2025-09-10 00:35:22'),(13,7,'k','julianaaparecidavecchi@gmail.com','2025-09-10 00:36:07');
+INSERT INTO `escalonamento` VALUES (1,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:07:21'),(2,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:08:20'),(3,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:10:12'),(4,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:11:00'),(5,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:12:57'),(6,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:14:08'),(7,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:14:20'),(8,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:14:45'),(9,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:22:42'),(10,8,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 00:22:58'),(11,12,'Julianaaa','julianaaparecidavecchi@gmail.comx','2025-09-10 00:32:36'),(12,7,'s','julianaaparecidavecchi@gmail.comx','2025-09-10 00:35:22'),(13,7,'k','julianaaparecidavecchi@gmail.com','2025-09-10 00:36:07'),(14,18,'s','julianaaparecidavecchi@gmail.com','2025-09-10 09:53:43'),(15,18,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 09:54:14'),(16,18,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-10 11:59:26'),(17,19,'Julianaaa','julianaaparecidavecchi@gmail.comr','2025-09-15 22:59:45'),(18,19,'Julianaaa','julianaaparecidavecchi@gmail.comefe','2025-09-16 00:27:18'),(19,19,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-16 00:36:31'),(20,19,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-16 00:37:20'),(21,22,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-16 00:58:42'),(22,21,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-16 00:58:53'),(23,21,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-16 00:59:04'),(24,23,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-16 01:01:44'),(25,22,'Julianaaa','julianaaparecidavecchi@gmail.com','2025-09-16 01:04:18');
 /*!40000 ALTER TABLE `escalonamento` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -150,4 +150,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-09-10  0:38:17
+-- Dump completed on 2025-09-16  1:09:05
